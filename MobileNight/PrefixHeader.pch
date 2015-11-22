@@ -1,0 +1,22 @@
+//
+//  PrefixHeader.pch
+//  MobileNight
+//
+
+#ifndef MobileNight_PrefixHeader_pch
+#define MobileNight_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "AppDelegate.h"
+#import "Constant.h"
+#import "APIClient.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+#import "HeaderVC.h"
+#import "ColorUtils.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "Util.h"
+#import "NSDictionary+UrlEncoding.h"
+
+#endif
