@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewController">
             <connections>
                 <outlet property="SearchButton" destination="hjl-sF-uOY" id="NMK-hu-Dkg"/>
                 <outlet property="myTableView" destination="OO0-vs-C2S" id="bJe-fZ-GKI"/>
-                <outlet property="searchBar" destination="1Qb-k5-ed4" id="Akr-x9-DIl"/>
+                <outlet property="searchBar" destination="1Qb-k5-ed4" id="Uz7-Kv-p7V"/>
+                <outlet property="searchDisplayController" destination="XAb-Dq-Fuj" id="xxF-Xh-vuK"/>
                 <outlet property="view" destination="YKz-So-GXD" id="I43-d0-bSr"/>
             </connections>
         </placeholder>
@@ -96,10 +97,24 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
         </view>
+        <searchDisplayController id="XAb-Dq-Fuj">
+            <connections>
+                <outlet property="delegate" destination="-1" id="GiF-RN-oKc"/>
+                <outlet property="searchBar" destination="1Qb-k5-ed4" id="ga0-3d-Uvl"/>
+                <outlet property="searchContentsController" destination="-1" id="6aR-SC-D1y"/>
+                <outlet property="searchResultsDataSource" destination="-1" id="Rt7-u0-JWG"/>
+                <outlet property="searchResultsDelegate" destination="-1" id="Z9W-wb-6jP"/>
+            </connections>
+        </searchDisplayController>
     </objects>
     <resources>
         <image name="icon2.png" width="57" height="76"/>
-        <image name="menu.png" width="72" height="72"/>
+        <image name="menu.png" width="132" height="132"/>
         <image name="x_icn_search.png" width="50" height="50"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

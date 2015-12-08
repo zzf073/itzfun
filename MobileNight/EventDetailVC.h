@@ -11,6 +11,7 @@
 
 #import "Venue.h"
 #import "VenueInfo.h"
+
 @interface EventDetailVC : UIViewController<XYPieChartDelegate, XYPieChartDataSource> {
     RateView *UserRateView;
     
@@ -19,7 +20,9 @@
     
     VenueInfo *venInfo;
     
+    IBOutlet UIView *scrollContentView;
 }
+
 //Detail Display Outlets.
 @property (weak, nonatomic) IBOutlet UILabel *lblEventName;
 @property (weak, nonatomic) IBOutlet UILabel *lblDate;
@@ -54,8 +57,5 @@
 @property (nonatomic ,retain) IBOutlet UIScrollView *svBack;
 
 @property (nonatomic ,retain) Venue *ven;
+
 @end
-
-
-
-

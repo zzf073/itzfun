@@ -46,12 +46,12 @@
     [super viewWillAppear:animated];
     scrvMain.contentSize  = CGSizeMake(screenWidth, scrollContentView.frame.size.height);
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)btnLoginClicked:(id)sender {
-    
     
     if ([strLoginType isEqualToString:@"visitor"])
     {
@@ -75,6 +75,7 @@
                 
                 NSDictionary *dictParams = @{@"loginId": self.txtEmail.text,@"password":self.txtPassword.text,@"loginType":strLoginType};
                 [APIClient loginWith:dictParams with:^(NSDictionary *response, NSError *error) {
+                    
                     [[kAPP_DELEGATE Request_timer] invalidate];
                     [kAPP_DELEGATE stopLoader];
                     if (error == nil)  {
@@ -136,7 +137,6 @@
             
         }
     }
-    
 }
 - (void) redirectTo:(id)methodTarget withMethod:(SEL)method withParam:(id)param
 {
@@ -207,7 +207,6 @@
     {
         [kAPP_DELEGATE setIsLogin:YES];
     }
-    
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView

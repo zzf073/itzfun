@@ -9,10 +9,14 @@
 #import "VIPVc.h"
 #import "RewardDetailVc.h"
 #import "Venue.h"
+#import "WebViewController.h"
 
 @interface VIPVc()
+
 - (void) processOrder:(NSDictionary*) payload forRow: (id)sender;
+
 @end
+
 @implementation VIPVc
 
 #pragma mark- View Life Cycle
@@ -28,17 +32,14 @@
     pickerVenue.delegate = self;
     pickerVenue.dataSource = self;
     //[pickerVenue selectRow:1 inComponent:0 animated:YES];
-    
-    
-   
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    
     [super viewWillAppear:animated];
     
     if ([kAPP_DELEGATE checkForInternetConnection]) {
+        
         [kAPP_DELEGATE secheduleTimer];
         [kAPP_DELEGATE ShowLoader];
         
@@ -52,6 +53,7 @@
                 SelectedVenueId = [NSString stringWithFormat:@"%d",ven.venueId];
                 
                 [self getNotificationsWithVenueID:SelectedVenueId withRoleCode:VISITOR];
+                
                 //[self getVenueInfo];
                 //[self.ListTableView reloadData];
                 [kAPP_DELEGATE stopLoader];
@@ -137,29 +139,33 @@
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
     alert.tag = 6565;
     [alert show];
-    
 }
 
 - (IBAction)btnPickupServiceClicked:(id)sender
 {
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]])
     {
-        
         NSString *Latitude = [kAPP_DELEGATE CurrentLatitude];
         NSString *Longitude = [kAPP_DELEGATE CurrentLongitude];
         NSString *ClientKey = @"YOUR_CLIENT_ID";
         
         NSString *URL = [NSString stringWithFormat:@"uber://?client_id=%@&action=setPickup&pickup[latitude]=%@&pickup[longitude]=%@",ClientKey,Latitude,Longitude];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
+        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
         
         // this will invoke the UBER app if it is already installed and show the current location of the consumer as pickup
         
+        WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+        openUrl.strLink = URL;
+        [self.navigationController pushViewController:openUrl animated:YES];
     }
     else {
         
         // No Uber app! Open Mobile Website.
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.uber.com"]];
+        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.uber.com"]];
         
+        WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+        openUrl.strLink = [NSString stringWithFormat:@"https://www.uber.com"];
+        [self.navigationController pushViewController:openUrl animated:YES];
     }
 }
 
@@ -200,7 +206,8 @@
     }
 }
 
-// Table Methods for managing listing.
+#pragma mark- UITableView Delegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     float Height;

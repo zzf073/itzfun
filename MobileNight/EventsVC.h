@@ -10,7 +10,6 @@
     IBOutlet UITableView *tblEvents;
     NSArray *arrEvents;
     UITapGestureRecognizer *tapGesture;
-
 }
 
 @property(nonatomic,retain) IBOutlet UIButton *segmtDJ;

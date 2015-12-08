@@ -19,13 +19,16 @@
 @implementation EventsVC
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
     [tblEvents registerNib:[UINib nibWithNibName:@"EventCell" bundle:nil] forCellReuseIdentifier:@"EventCell1"];
 }
+
 -(void) viewWillAppear:(BOOL)animated {
+    
     arrEvents = [[NSArray alloc]init];
     
-    if ([kAPP_DELEGATE checkForInternetConnection]) {
+    /*if ([kAPP_DELEGATE checkForInternetConnection]) {
         [kAPP_DELEGATE ShowLoader];
         
         [APIClient getEventsByType:@"ALL" with:^(NSDictionary *response, NSError *error) {
@@ -41,7 +44,7 @@
         }];
     } else {
         [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
-    }
+    }*/
     
 //    UITextField *txfSearchField = [self.searchBar valueForKey:@"_searchField"];
 //    [txfSearchField setBackgroundColor:[UIColor colorWithRed:212 green:211 blue:214 alpha:1]];
@@ -62,12 +65,11 @@
     
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     
-    // Do any additional setup after loading the view.
     //arrEvents = [NSArray array];
     //arrEvents = @[@"DJ NIKKY",@"DJ BUDDY",@"DJ NIKKY",@"DJ BUDDY"];
-    
+    [kAPP_DELEGATE ShowLoader];
+    [self performSelector:@selector(getEventByType:) withObject:@"ALL" afterDelay:0.1];
 }
-
 
 //
 - (NSString *)tabTitle
@@ -85,6 +87,28 @@
     return @"event-icon.png";
 }
 //
+
+-(void)getEventByType:(NSString *)strType
+{
+    if ([kAPP_DELEGATE checkForInternetConnection]) {
+        
+        //[kAPP_DELEGATE ShowLoader];
+        
+        [APIClient getEventsByType:strType with:^(NSDictionary *response, NSError *error) {
+            
+            [kAPP_DELEGATE stopLoader];
+            if (error == nil) {
+                
+                arrEvents = [Event getEvents:response];
+                [tblEvents reloadData];
+            } else {
+                [kAPP_DELEGATE stopLoader];
+            }
+        }];
+    } else {
+        [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+    }
+}
 
 - (IBAction)btnBackClicked:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
@@ -108,8 +132,8 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
-
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //EventDetailVC *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"EventDetailVC"];
@@ -118,10 +142,10 @@
     [self.navigationController pushViewController:vc animated:YES];
      
     NSLog(@"Selected Event: %@",[[arrEvents objectAtIndex:indexPath.row] valueForKey:@"eventName"]);
-    
 }
 
 - (IBAction)btnSegmentClicked:(UIButton *)sender {
+    
     [self setSegmentsColors];
     
     [sender setBackgroundColor:[UIColor clearColor]];
@@ -129,18 +153,30 @@
     switch (sender.tag) {
         case 1: {
             [self.segmtDJ setBackgroundImage:[UIImage imageNamed:@"tab1-ho.png"] forState:UIControlStateNormal];
+            [kAPP_DELEGATE ShowLoader];
+            [self performSelector:@selector(getEventByType:) withObject:@"DJ" afterDelay:0.1];
+
             break;
         }
         case 2: {
             [self.segmtKaroke setBackgroundImage:[UIImage imageNamed:@"tab2-ho.png"] forState:UIControlStateNormal];
+            [kAPP_DELEGATE ShowLoader];
+            [self performSelector:@selector(getEventByType:) withObject:@"Karoke" afterDelay:0.1];
+
             break;
         }
         case 3: {
             [self.segmtComedy setBackgroundImage:[UIImage imageNamed:@"tab3-ho.png"] forState:UIControlStateNormal];
+            [kAPP_DELEGATE ShowLoader];
+            [self performSelector:@selector(getEventByType:) withObject:@"Comedy" afterDelay:0.1];
+
             break;
         }
         case 4: {
             [self.segmtAll setBackgroundImage:[UIImage imageNamed:@"tab4-ho.png"] forState:UIControlStateNormal];
+            [kAPP_DELEGATE ShowLoader];
+            [self performSelector:@selector(getEventByType:) withObject:@"ALL" afterDelay:0.1];
+
             break;
         }
         default:

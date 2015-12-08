@@ -21,8 +21,8 @@
     NSOperationQueue  *queue;
     UIView *listVc;
     ListDisplayVC *vc;
-
 }
+
 @end
 
 @implementation MapDisplayVC
@@ -62,14 +62,12 @@
     } else {
         [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
     }
-    
-    
 }
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-
 }
+
 - (void)viewWillDisappear:(BOOL)animated {
     
    // [self dismissViewControllerAnimated:NO completion:nil];
@@ -111,6 +109,7 @@
     }
     [queue addOperations:marrOperation waitUntilFinished:NO];
 }
+
 - (void) observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
                          change:(NSDictionary *)change context:(void *)context
 {
@@ -131,6 +130,7 @@
                                change:change context:context];
     }
 }
+
 -(void) Create_Annotation
 {
     for (int i =0; i<arrVenues.count; i++) {
@@ -199,8 +199,8 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-   
 }
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
     static NSString *reuseId = @"StandardPin";
@@ -217,8 +217,8 @@
     aView.annotation = annotation;
     
     return aView;
-    
 }
+
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     
     for (int i = 0; i<arrVenues.count; i++) {

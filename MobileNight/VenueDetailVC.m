@@ -55,12 +55,10 @@
     } else {
         [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
     }
-    
 }
 
 - (void)viewDidLoad
 {
-    
     [super viewDidLoad];
     
     NSLog(@"CHECK: %@",self.ven.venueName);
@@ -83,6 +81,7 @@
                 [kAPP_DELEGATE stopLoader];
             }
         }];
+        
     } else {
         [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
     }
@@ -114,8 +113,8 @@
     self.sliceColors =[NSArray arrayWithObjects:maleColor,femaleColor,singleColor,nil];
     
     //[self updateUI];
-    
 }
+
 - (void)updateUI {
     
     CLLocationCoordinate2D cordinate = CLLocationCoordinate2DMake(self.ven.latitude, self.ven.longitude);
@@ -161,7 +160,6 @@
     }
 }
 
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -191,16 +189,20 @@
     return UIInterfaceOrientationIsLandscape(interfaceOrientation);
 }
 
-- (IBAction)clearSlices {
+- (IBAction)clearSlices
+{
     //[_slices removeAllObjects];
     [self.pieChartRight reloadData];
 }
-- (IBAction)showSlicePercentage:(id)sender {
+
+- (IBAction)showSlicePercentage:(id)sender
+{
     UISwitch *perSwitch = (UISwitch *)sender;
     [self.pieChartRight setShowPercentage:perSwitch.isOn];
 }
-- (IBAction)btnCallClicked:(id)sender {
-    
+
+- (IBAction)btnCallClicked:(id)sender
+{    
     NSString *number = self.ven.phone;
     NSURL* callUrl=[NSURL URLWithString:[NSString   stringWithFormat:@"tel:%@",number]];
     

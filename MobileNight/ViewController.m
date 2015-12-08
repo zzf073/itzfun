@@ -8,7 +8,7 @@
 #import "ListDisplayVC.h"
 #import "FooterView.h"
 
-@interface ViewController () <UISearchBarDelegate>
+@interface ViewController () <UISearchBarDelegate,UISearchControllerDelegate,UISearchDisplayDelegate>
 
 @end
 
@@ -20,6 +20,7 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
+    
     List_Array = [[NSMutableArray alloc] init];
     
     if ([kAPP_DELEGATE checkForInternetConnection])
@@ -43,7 +44,6 @@
     } else {
         [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
     }
-    
     
     //[self retriveCurrentlocation];
     tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -221,7 +221,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     static NSString *MyIdentifier = @"MyReuseIdentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:MyIdentifier];
     if (cell == nil)
@@ -308,18 +307,57 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     
-    NSString* filter = @"SELF CONTAINS[c] %@";
+    /*NSString* filter = @"SELF CONTAINS[c] %@";
     NSPredicate* predicate = [NSPredicate predicateWithFormat:filter , searchText];
     Searchd_List_Array = [List_Array filteredArrayUsingPredicate:predicate];
-    [self.searchDisplayController.searchResultsTableView reloadData];
-    
+    [self.searchDisplayController.searchResultsTableView reloadData];*/
 }
+
+//
+#pragma mark - UISearchDisplayController Delegate Methods
+
+- (void)filterContentForSearchText:(NSString*)searchText scope:(NSString*)scope
+{
+    // Update the filtered array based on the search text and scope.
+
+    // Filter the array using NSPredicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    NSArray *tempArray = [List_Array filteredArrayUsingPredicate:predicate];
+    
+    Searchd_List_Array = [NSMutableArray arrayWithArray:tempArray];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    // Tells the table data source to reload when text changes
+    [self filterContentForSearchText:searchString scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:[self.searchDisplayController.searchBar selectedScopeButtonIndex]]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    // Tells the table data source to reload when scope bar selection changes
+    [self filterContentForSearchText:[self.searchDisplayController.searchBar text] scope:
+     [[self.searchDisplayController.searchBar scopeButtonTitles] objectAtIndex:searchOption]];
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+//
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     [self.view addGestureRecognizer:tapGesture];
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    
+    if (searchBar.text.length == 0) {
+        [searchBar setHidden:YES];
+    }
     [self.view removeGestureRecognizer:tapGesture];
 }
 

@@ -28,4 +28,5 @@
 {
     return [@"admin" caseInsensitiveCompare:self.role] == NSOrderedSame;
 }
+
 @end

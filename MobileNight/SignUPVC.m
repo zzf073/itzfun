@@ -19,8 +19,8 @@
 @implementation SignUPVC
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     arrGender   = @[@"Male",@"Female",@"Single"];
     arrAgeGroup = @[@"18-30",@"30-40",@"40-50",@"50+"];
     
@@ -38,9 +38,10 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
+
 - (IBAction)btnSubmitClicked:(id)sender {
     
     if(self.txtFirstName.text.length==0)
@@ -56,7 +57,9 @@
     {
         [[[UIAlertView alloc] initWithTitle:pwd_blank message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil, nil]show];
     } else {
+        
         if ([kAPP_DELEGATE checkForInternetConnection]) {
+            
             [kAPP_DELEGATE ShowLoader];
             NSDictionary *params = @{
                                      @"email": self.txtEmail.text,
@@ -73,10 +76,25 @@
                 [kAPP_DELEGATE stopLoader];
                 
 
-                if (error == nil) {
+                /*if (error == nil) {
                     [self goToCites];
                 } else {
+                }*/
+                
+                //
+                if (error == nil) {
+                    
+                    NSInteger code = [[response valueForKey:@"code"] integerValue];
+                    if (code == 0 || code == 200 || code == 201) {
+                        [kAPP_DELEGATE setIsLogin:YES];
+                        [kAPP_DELEGATE setVisitor:[Visitor getVisitor:response]];
+                    }
+                    [self goToCites];
+                    
+                }else {
+                    [[[UIAlertView alloc] initWithTitle:@"Error" message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
                 }
+                //
             }];
         } else {
             [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];

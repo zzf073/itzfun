@@ -18,10 +18,11 @@
 @synthesize sliceColors = _sliceColors;
 @synthesize ven;
 @synthesize EventDetail;
+@synthesize svBack;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     
     CLLocationCoordinate2D cordinate = CLLocationCoordinate2DMake(self.ven.latitude, self.ven.longitude);
     [self.mapView setCenterCoordinate:cordinate animated:YES];
@@ -67,16 +68,21 @@
 {
     [super viewWillAppear:animated];
     
+    
     NSString *EventName = [EventDetail valueForKey:@"eventName"];
     self.lblEventName.text = EventName;
     
-   /* NSString *EventDate = [EventDetail valueForKey:@"startDate"];
-    NSDateFormatter *dateFormatterNew = [[NSDateFormatter alloc] init];
-    [dateFormatterNew setDateFormat:@"MMM dd, yyyy"];
-    NSString *stringForNewDate = EventDate;
-    NSString *Date = [NSString stringWithFormat:@"%@",stringForNewDate];
-    self.lblDate.text = Date;
-    */
+    //NSString *EventDate = [EventDetail valueForKey:@"startDate"];
+    //NSDateFormatter *dateFormatterNew = [[NSDateFormatter alloc] init];
+    //[dateFormatterNew setDateFormat:@"MMM dd, yyyy"];
+    //NSString *stringForNewDate = EventDate;
+    //NSString *Date = [NSString stringWithFormat:@"%@",stringForNewDate];
+    //self.lblDate.text = Date;
+    
+    
+    [self.svBack setContentSize:CGSizeMake(screenWidth, scrollContentView.frame.size.height)];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     NSString *EventPerformer = [[EventDetail valueForKey:@"performer"] valueForKey:@"performerName"];
     self.lblPerformerName.text = EventPerformer;
     

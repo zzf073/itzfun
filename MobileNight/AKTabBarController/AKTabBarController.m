@@ -528,8 +528,11 @@ typedef enum {
             [self goToEvents];
         else if (index == 3)
             [self goToBooking];
+        else if (index == 4)
+            [self goToProfile];
         else
-            [self goToCites];
+            //[self goToCites];
+            [self gotoLogin];
         
     } else {
         switch (index) {
@@ -539,6 +542,7 @@ typedef enum {
                 } else {
                     if ([kAPP_DELEGATE isLogin]) {
                         //[[self.buttons objectAtIndex:3] sendActionsForControlEvents:UIControlEventTouchUpInside];
+                        [self goToProfile];
                     } else {
                         [self gotoLogin];
                     }

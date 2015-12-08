@@ -15,10 +15,8 @@
     NSMutableArray *SubList_Array;
     
     NSArray *Searchd_List_Array;
-
     
     UITapGestureRecognizer *tapGesture;
-    
 }
 
 @property (nonatomic, retain) IBOutlet UIButton *SearchButton;
