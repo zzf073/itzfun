@@ -12,12 +12,12 @@
 #import "UIKeyBoardVC.h"
 #import "Venue.h"
 
-@interface AdminVc : UIKeyBoardVC <UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate> {
+@interface AdminVc : UIKeyBoardVC <UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate>
+{
     UIPickerView *pickerVenue;
     NSArray *arrVenues;
     NSOperationQueue  *queue;
     Venue *selectedVenue;
-
 }
 
 @property (nonatomic,retain) IBOutlet UISlider *sliderMale;
@@ -33,6 +33,8 @@
 @property (nonatomic,retain) IBOutlet UITextField *txtVenue;
 
 @property (nonatomic, retain) IBOutlet UITextField *txtWaitTime;
+
+@property (nonatomic,retain) IBOutlet UIScrollView *scrvMain;
 
 
 

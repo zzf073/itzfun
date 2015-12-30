@@ -51,6 +51,10 @@
     queue = [[NSOperationQueue alloc] init];
     [queue addObserver:self forKeyPath:@"operations" options:0 context:nil];
     
+    //
+    self.scrvMain.contentSize = CGSizeMake(screenWidth, screenHeight+64);
+    //
+    
     pickerVenue = [[UIPickerView alloc] init];
     pickerVenue.delegate = self;
     pickerVenue.dataSource = self;

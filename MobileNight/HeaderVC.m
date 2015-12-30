@@ -61,10 +61,10 @@
                                       target:self
                                       action:@selector(goToEvents)];
     
-    KxMenuItem *booking = [KxMenuItem menuItem:@"Booking"
+    /*KxMenuItem *booking = [KxMenuItem menuItem:@"Booking"
                                          image:[UIImage imageNamed:@"bookign-icon.png"]
                                         target:self
-                                        action:@selector(goToBooking)];
+                                        action:@selector(goToBooking)];*/
     KxMenuItem *login = [KxMenuItem menuItem:@"Login"
                                        image:[UIImage imageNamed:@"login-icon.png"]
                                       target:self
@@ -85,9 +85,11 @@
     NSArray *items;
     
     if ([[kAPP_DELEGATE visitor] isAdmin])
-        items = @[city,venue,event,booking,user];
+        //items = @[city,venue,event,booking,user];
+        items = @[city,venue,event,user];
     else
-        items = @[city,venue,event,booking,user];
+        //items = @[city,venue,event,booking,user];
+        items = @[city,venue,event,user];
     
     return items;
 }
@@ -218,25 +220,25 @@
                    [UIImage imageNamed:@"cites.png"],
                    [UIImage imageNamed:@"venues.png"],
                    [UIImage imageNamed:@"events.png"],
-                   [UIImage imageNamed:@"booking.png"],
+                   //[UIImage imageNamed:@"booking.png"],
                    [UIImage imageNamed:@"settings.png"],
-                   [UIImage imageNamed:@"admin.png"],
-                   imguser];
+                   [UIImage imageNamed:@"admin.png"]];//,
+                   //imguser];
         menuIcons = @[[UIImage imageNamed:@"city-icon.png"],
                       [UIImage imageNamed:@"venue-icon.png"],
                       [UIImage imageNamed:@"event-icon.png"],
-                      [UIImage imageNamed:@"bookign-icon.png"],
+                      //[UIImage imageNamed:@"bookign-icon.png"],
                       [UIImage imageNamed:@"setting-icon.png"],
-                      [UIImage imageNamed:@"admin-icon.png"],
-                      imgUserIcon];
+                      [UIImage imageNamed:@"admin-icon.png"]];//,
+                      //imgUserIcon];
         
         menuText = @[@"Cities",
                       @"Venues",
                       @"Events",
-                      @"Booking",
+                      //@"Booking",
                       @"Profile",
-                      @"Admin",
-                      strUser];
+                     @"Admin"];//,
+                      //strUser];
     }
     else
     {
@@ -244,20 +246,20 @@
                    [UIImage imageNamed:@"cites.png"],
                    [UIImage imageNamed:@"venues.png"],
                    [UIImage imageNamed:@"events.png"],
-                   [UIImage imageNamed:@"booking.png"],
+                   //[UIImage imageNamed:@"booking.png"],
                    [UIImage imageNamed:@"settings.png"],
                    imguser];
          menuIcons = @[[UIImage imageNamed:@"city-icon.png"],
                        [UIImage imageNamed:@"venue-icon.png"],
                        [UIImage imageNamed:@"event-icon.png"],
-                       [UIImage imageNamed:@"bookign-icon.png"],
+                       //[UIImage imageNamed:@"bookign-icon.png"],
                        [UIImage imageNamed:@"setting-icon.png"],
                        imgUserIcon];
         
         menuText = @[@"Cities",
                      @"Venues",
                      @"Events",
-                     @"Booking",
+                     //@"Booking",
                      @"Settings",
                      strUser];
     }

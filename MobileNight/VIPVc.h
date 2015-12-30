@@ -17,6 +17,7 @@
     IBOutlet UIView *orderTableService;
     IBOutlet UIView *requestService;
     IBOutlet UIView *requestCabService;
+    IBOutlet UILabel *lblNotification;
     
     UIPickerView *pickerVenue;
     NSArray *arrVenues;

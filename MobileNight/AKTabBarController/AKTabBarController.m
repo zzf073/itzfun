@@ -527,12 +527,31 @@ typedef enum {
         else if (index == 2)
             [self goToEvents];
         else if (index == 3)
-            [self goToBooking];
-        else if (index == 4)
+            //[self goToBooking];
             [self goToProfile];
-        else
+        else if (index == 4) {
+            //[self goToProfile];
+            
+            if ([[kAPP_DELEGATE visitor] isAdmin]) {
+                [self gotoAdmin];
+            } else {
+                if ([kAPP_DELEGATE isLogin]) {
+                    //[[self.buttons objectAtIndex:3] sendActionsForControlEvents:UIControlEventTouchUpInside];
+                    [self goToProfile];
+                } else {
+                    [self gotoLogin];
+                }
+            }
+        }
+        //else
             //[self goToCites];
+            //[self gotoLogin];
+        else if (index == 5)
+        {
+            [kAPP_DELEGATE setIsLogin:NO];
+            [kAPP_DELEGATE setVisitor:nil];
             [self gotoLogin];
+        }
         
     } else {
         switch (index) {
@@ -666,7 +685,6 @@ typedef enum {
     [[kAPP_DELEGATE tabBarController] setSelectedIndex:3];
     UINavigationController *navController =(UINavigationController *) [[kAPP_DELEGATE tabBarController]selectedViewController];
     [navController popToRootViewControllerAnimated:YES];
-
 }
 
 - (void)goToBooking

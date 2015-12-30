@@ -80,8 +80,10 @@
         [requestService setHidden:YES];
         [requestCabService setHidden:YES];
         [self.txtVenue setHidden:YES];
+        
+        lblNotification.frame = CGRectMake(25, 18, 270, 21);
+        self.notificationList.frame = CGRectMake(0, lblNotification.frame.origin.x+30, screenWidth, screenHeight);
     }
-    
 }
 
 //
@@ -191,17 +193,13 @@
     else if (alertView.tag == 6565)
     {
         if (buttonIndex == 0)
-        {
             NSLog(@"Cancel Request Service");
-        }
         else if (buttonIndex == 1)
         {
-            
             NSLog(@"Request Service");
             NSLog(@"Requested Service is: %@", [alertView textFieldAtIndex:0].text);
             
             [self orderServicewithVenueID:SelectedVenueId withServiceType:@"Request Service" withServiceDescription:[alertView textFieldAtIndex:0].text];
-            
         }
     }
 }
@@ -212,13 +210,10 @@
 {
     float Height;
     if ([[kAPP_DELEGATE visitor] isAdmin])
-    {
         Height = 56;
-    }
     else
-    {
         Height = 40;
-    }
+    
     return Height;
 }
 
@@ -236,10 +231,10 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier:MyIdentifier];
     }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     
-   
     UIImageView *notificationIcon = [[UIImageView alloc]initWithFrame:CGRectMake(20, cell.frame.size.height/2 - 10, 16, 16)];
     notificationIcon.image = [UIImage imageNamed:@"icon2_vip"];
     [cell addSubview:notificationIcon];
@@ -251,14 +246,14 @@
     notificationText.font = [UIFont systemFontOfSize:15.0];
     [cell addSubview:notificationText];
     
-    UILabel *notificationStatus = [[UILabel alloc]initWithFrame:CGRectMake(notificationIcon.frame.origin.x + notificationIcon.frame.size.width + 210, cell.frame.size.height/2-10, 200, 16)];
+    UILabel *notificationStatus = [[UILabel alloc]initWithFrame:CGRectMake(notificationIcon.frame.origin.x + notificationIcon.frame.size.width + 180, cell.frame.size.height/2-10, 200, 16)];
     notificationStatus.text = [[notifications objectAtIndex:indexPath.row] valueForKey:@"status"];
     notificationStatus.textColor = [UIColor whiteColor];
     notificationStatus.font = [UIFont systemFontOfSize:15.0];
+    
     [cell addSubview:notificationStatus];
     
-
-    //[cell.contentView setBackgroundColor:[UIColor colorWithRed:46.0/255.0 green:59.0/255.0 blue:79.0/255.0 alpha:1.0]];
+    [cell.contentView setBackgroundColor:[UIColor colorWithRed:46.0/255.0 green:59.0/255.0 blue:79.0/255.0 alpha:1.0]];
     
     if ([[kAPP_DELEGATE visitor] isAdmin])
     {
@@ -295,7 +290,6 @@
         [cell addSubview:RejectButton];
         */
         
-        
         UIButton *AcceptButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [AcceptButton addTarget:self
                          action:@selector(AcceptButtonAction:)
@@ -306,7 +300,6 @@
         AcceptButton.tag = indexPath.row;
         [cell addSubview:AcceptButton];
         
-        
         UIButton *RejectButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [RejectButton addTarget:self
                          action:@selector(RejectButtonAction:)
@@ -316,7 +309,6 @@
         RejectButton.frame = CGRectMake(AcceptButton.frame.origin.x + AcceptButton.frame.size.width + 20, notificationText.frame.origin.y + notificationText.frame.size.height + 4, 50, 20);
         RejectButton.tag = indexPath.row;
         [cell addSubview:RejectButton];
-        
     }
     return cell;
 }
