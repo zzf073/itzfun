@@ -321,7 +321,7 @@
     // Update the filtered array based on the search text and scope.
 
     // Filter the array using NSPredicate
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name contains[c] %@",searchText];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.name beginswith[c] %@",searchText];
     NSArray *tempArray = [List_Array filteredArrayUsingPredicate:predicate];
     
     Searchd_List_Array = [NSMutableArray arrayWithArray:tempArray];
