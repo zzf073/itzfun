@@ -321,7 +321,7 @@
 
 -(IBAction)RejectButtonAction:(id)sender
 {
-     NSDictionary *dictParams = @{@"status":@"COMPLETED",@"description":@"Your order is ready."};
+     NSDictionary *dictParams = @{@"status":@"REJECTED",@"description":@"Your order is ready."};
     [self processOrder:dictParams forRow:sender];
 }
 

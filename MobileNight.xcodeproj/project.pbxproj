@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -486,7 +486,7 @@
 		F48FE9431B2B103200B46EC2 /* back-hed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back-hed.png"; sourceTree = "<group>"; };
 		F4905A361B160C2D007975D8 /* HeaderVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderVC.h; sourceTree = "<group>"; };
 		F4905A371B160C2D007975D8 /* HeaderVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeaderVC.m; sourceTree = "<group>"; };
-		F49E978D1B132BE2009CD0EE /* MobileNight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileNight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F49E978D1B132BE2009CD0EE /* ItzFun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItzFun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F49E97911B132BE2009CD0EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F49E97921B132BE2009CD0EE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F49E97941B132BE2009CD0EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -730,7 +730,7 @@
 		F49E978E1B132BE2009CD0EE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F49E978D1B132BE2009CD0EE /* MobileNight.app */,
+				F49E978D1B132BE2009CD0EE /* ItzFun.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1146,7 +1146,7 @@
 			);
 			name = MobileNight;
 			productName = MobileNight;
-			productReference = F49E978D1B132BE2009CD0EE /* MobileNight.app */;
+			productReference = F49E978D1B132BE2009CD0EE /* ItzFun.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1170,7 +1170,7 @@
 				};
 			};
 			buildConfigurationList = F49E97881B132BE2009CD0EE /* Build configuration list for PBXProject "MobileNight" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1483,6 +1483,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1526,6 +1527,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1549,6 +1551,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1564,7 +1567,7 @@
 					"$(PROJECT_DIR)/MobileNight/Headers",
 					"$(PROJECT_DIR)/MobileNight/Flurry",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ItzFun;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -1575,6 +1578,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -1590,7 +1594,7 @@
 					"$(PROJECT_DIR)/MobileNight/Headers",
 					"$(PROJECT_DIR)/MobileNight/Flurry",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ItzFun;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
