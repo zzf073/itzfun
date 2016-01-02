@@ -110,7 +110,7 @@
     [self.navigationController pushViewController:vc animated:YES];
      */
     
-    [self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@""];
+    [self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
     
 }
 
