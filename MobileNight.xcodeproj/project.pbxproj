@@ -1160,6 +1160,7 @@
 				TargetAttributes = {
 					F49E978C1B132BE2009CD0EE = {
 						CreatedOnToolsVersion = 6.0;
+						DevelopmentTeam = 5UT2UZN3KV;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;

@@ -119,7 +119,7 @@
     //[self.navigationController pushViewController:vc animated:YES];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Order Table Service"
-                                                    message:@"Please enter how many table you want to reserved."
+                                                    message:@"Please enter how many tables to reserve."
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Reserve",nil];
@@ -134,7 +134,7 @@
     //[self.navigationController pushViewController:vc animated:YES];
     
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Request Service"
-                                                    message:@"Please write request service."
+                                                    message:@"Please describe your service request."
                                                    delegate:self
                                           cancelButtonTitle:@"Cancel"
                                           otherButtonTitles:@"Request",nil];
@@ -379,7 +379,7 @@
             [[kAPP_DELEGATE Request_timer] invalidate];
             if (error == nil) {
                 
-                [[[UIAlertView alloc] initWithTitle:nil message:@"Service Ordered." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+                [[[UIAlertView alloc] initWithTitle:nil message:@"VIP Service Ordered." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
                 
                 [kAPP_DELEGATE stopLoader];
                 
