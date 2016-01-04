@@ -10,8 +10,12 @@
 #import "RewardDetailVc.h"
 #import "Venue.h"
 #import "WebViewController.h"
+#import "UIKeyboardViewController.h"
 
-@interface VIPVc()
+@interface VIPVc()<UIKeyboardViewControllerDelegate>
+{
+    UIKeyboardViewController *keyBoardController;
+}
 
 - (void) processOrder:(NSDictionary*) payload forRow: (id)sender;
 
@@ -32,6 +36,8 @@
     pickerVenue.delegate = self;
     pickerVenue.dataSource = self;
     //[pickerVenue selectRow:1 inComponent:0 animated:YES];
+    
+    basLinePrice = 0;
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -52,6 +58,52 @@
                 Venue *ven = [arrVenues objectAtIndex:0];
                 SelectedVenueId = [NSString stringWithFormat:@"%d",ven.venueId];
                 
+                //
+                
+                double latitudeUser = [[kAPP_DELEGATE CurrentLatitude] doubleValue];
+                double longitudeUser = [[kAPP_DELEGATE CurrentLongitude] doubleValue];
+                
+                //CLLocation *locB = [[CLLocation alloc] initWithLatitude:latitudeUser longitude:longitudeUser];
+                
+                //CLLocationDistance distance = [locA distanceFromLocation:locB];
+
+                CLLocation *currentUserLocation = [[CLLocation alloc] initWithLatitude:latitudeUser longitude:longitudeUser];
+                
+                CLLocation *closestLocation;
+                CLLocationDistance closestLocationDistance = -1;
+                
+                NSUInteger index=0;
+                
+                for (int i =0; i < arrVenues.count; i++) {
+
+                    Venue *ven = [arrVenues objectAtIndex:i];
+                    CLLocation *locA = [[CLLocation alloc] initWithLatitude:ven.latitude longitude:ven.longitude];
+                    
+                    if (!closestLocation) {
+                        closestLocation = locA;
+                        closestLocationDistance = [currentUserLocation distanceFromLocation:locA];
+                        
+                        index = i;
+                        continue;
+                    }
+                    
+                    CLLocationDistance currentDistance = [currentUserLocation distanceFromLocation:locA];
+                    
+                    if (currentDistance < closestLocationDistance) {
+                        closestLocation = locA;
+                        closestLocationDistance = currentDistance;
+                        
+                        index = i;
+                    }
+                }
+                
+                ven = [arrVenues objectAtIndex:index];
+                SelectedVenueId = [NSString stringWithFormat:@"%d",ven.venueId];
+                self.txtVenue.text = [NSString stringWithFormat:@"%@ ▽",ven.venueName];
+                
+                basLinePrice = [ven.info.fastlineCharges integerValue];
+                lblCutLine.text = [NSString stringWithFormat:@"$%lu",(unsigned long)basLinePrice];
+                //
                 [self getNotificationsWithVenueID:SelectedVenueId withRoleCode:VISITOR];
                 
                 //[self getVenueInfo];
@@ -84,6 +136,8 @@
         lblNotification.frame = CGRectMake(25, 18, 270, 21);
         self.notificationList.frame = CGRectMake(0, lblNotification.frame.origin.x+30, screenWidth, screenHeight);
     }
+    else
+        self.notificationList.frame = CGRectMake(self.notificationList.frame.origin.x, self.notificationList.frame.origin.y, screenWidth, screenHeight-self.notificationList.frame.origin.y-115);
 }
 
 //
@@ -110,64 +164,129 @@
     [self.navigationController pushViewController:vc animated:YES];
      */
     
-    [self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
-    
+    //
+    if (SelectedVenueId.length == 0) {
+     
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+        [alert show];
+    }
+    else {
+        
+        ContactPopup.frame=CGRectMake(0, 0, screenWidth, screenHeight);
+        [self.view addSubview:ContactPopup];
+        
+        keyBoardController=[[UIKeyboardViewController alloc] initWithControllerDelegate:self];
+        [keyBoardController addToolbarToKeyboard];
+
+        CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+        popAnimation.duration = 0.4;
+        popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
+                                [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.0f)],
+                                [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9f, 0.9f, 1.0f)],
+                                [NSValue valueWithCATransform3D:CATransform3DIdentity]];
+        popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
+        popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                         [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                         [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+        [ContactPopup.layer addAnimation:popAnimation forKey:nil];
+        innerContactPopup.center=ContactPopup.center;
+    }
+        //[self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
+    //
+}
+
+-(IBAction)CancelPopup:(id)sender
+{
+    self.txtGuestNumber.text = @"0";
+    [ContactPopup removeFromSuperview];
+}
+
+-(IBAction)ClickBaseLine:(id)sender
+{
+    NSUInteger count = [self.txtGuestNumber.text integerValue];
+    if (count == 0) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter guest number greater than zero." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+        [alert show];
+    }
+    else
+        [self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
 }
 
 - (IBAction)btnOrderTableServiceClicked:(id)sender {
+    
     //RewardDetailVc *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"RewardDetailVc"];
     //[self.navigationController pushViewController:vc animated:YES];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Order Table Service"
-                                                    message:@"Please enter how many tables to reserve."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"Reserve",nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    alert.tag = 4545;
-    [alert show];
-    
+    if (SelectedVenueId.length == 0) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Order Table Service" message:@"Please enter how many tables to reserve." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reserve",nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        alert.tag = 4545;
+        [alert show];
+    }
 }
 
 - (IBAction)btnRequestServiceClicked:(id)sender {
     //RewardDetailVc *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"RewardDetailVc"];
     //[self.navigationController pushViewController:vc animated:YES];
     
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Request Service"
-                                                    message:@"Please describe your service request."
-                                                   delegate:self
-                                          cancelButtonTitle:@"Cancel"
-                                          otherButtonTitles:@"Request",nil];
-    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-    alert.tag = 6565;
-    [alert show];
+    if (SelectedVenueId.length == 0) {
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+        [alert show];
+    }
+    else
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Request Service"
+                                                        message:@"Please describe your service request."
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Request",nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        alert.tag = 6565;
+        [alert show];
+    }
 }
 
 - (IBAction)btnPickupServiceClicked:(id)sender
 {
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]])
-    {
-        NSString *Latitude = [kAPP_DELEGATE CurrentLatitude];
-        NSString *Longitude = [kAPP_DELEGATE CurrentLongitude];
-        NSString *ClientKey = @"YOUR_CLIENT_ID";
+    if (SelectedVenueId.length == 0) {
         
-        NSString *URL = [NSString stringWithFormat:@"uber://?client_id=%@&action=setPickup&pickup[latitude]=%@&pickup[longitude]=%@",ClientKey,Latitude,Longitude];
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-        
-        // this will invoke the UBER app if it is already installed and show the current location of the consumer as pickup
-        
-        WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
-        openUrl.strLink = URL;
-        [self.navigationController pushViewController:openUrl animated:YES];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+        [alert show];
     }
-    else {
-        
-        // No Uber app! Open Mobile Website.
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.uber.com"]];
-        
-        WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
-        openUrl.strLink = [NSString stringWithFormat:@"https://www.uber.com"];
-        [self.navigationController pushViewController:openUrl animated:YES];
+    else
+    {
+        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]])
+        {
+            NSString *Latitude = [kAPP_DELEGATE CurrentLatitude];
+            NSString *Longitude = [kAPP_DELEGATE CurrentLongitude];
+            NSString *ClientKey = @"YOUR_CLIENT_ID";
+            
+            NSString *URL = [NSString stringWithFormat:@"uber://?client_id=%@&action=setPickup&pickup[latitude]=%@&pickup[longitude]=%@",ClientKey,Latitude,Longitude];
+            //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
+            
+            // this will invoke the UBER app if it is already installed and show the current location of the consumer as pickup
+            
+            WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+            openUrl.strLink = URL;
+            [self.navigationController pushViewController:openUrl animated:YES];
+        }
+        else {
+            
+            // No Uber app! Open Mobile Website.
+            //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.uber.com"]];
+            
+            WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+            openUrl.strLink = [NSString stringWithFormat:@"https://www.uber.com"];
+            [self.navigationController pushViewController:openUrl animated:YES];
+        }
     }
 }
 
@@ -175,7 +294,6 @@
 {
     if (alertView.tag == 4545)
     {
-        
         if (buttonIndex == 0)
         {
             NSLog(@"Cancel Order Table Service");
@@ -186,9 +304,7 @@
             NSLog(@"Number or Table Want: %@", [alertView textFieldAtIndex:0].text);
             
             [self orderServicewithVenueID:SelectedVenueId withServiceType:@"Order Table Service" withServiceDescription:[alertView textFieldAtIndex:0].text];
-            
         }
-       
     }
     else if (alertView.tag == 6565)
     {
@@ -310,6 +426,9 @@
         RejectButton.tag = indexPath.row;
         [cell addSubview:RejectButton];
     }
+    
+    self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
+    
     return cell;
 }
 
@@ -341,6 +460,7 @@
             if (error == nil) {
                 [notifications removeObjectAtIndex:[sender tag]];
                 [self.notificationList reloadData];
+                self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
             }
         }];
     } else {
@@ -383,6 +503,8 @@
                 
                 [kAPP_DELEGATE stopLoader];
                 
+                self.txtGuestNumber.text = @"0";
+                
             } else {
                 [kAPP_DELEGATE stopLoader];
             }
@@ -396,6 +518,7 @@
 #pragma mark- UITextField Delegate
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    
     [textField resignFirstResponder];
     return YES;
 }
@@ -409,11 +532,23 @@
 }
 
 #pragma - UIKeyboardViewController Delegate
+
 - (void)alttextFieldDidBeginEditing:(UITextField *)textField;
 {
     if (textField==self.txtVenue)
     {
         [textField setInputView:pickerVenue];
+    }
+}
+
+- (void)alttextFieldDidEndEditing:(UITextField *)textField
+{
+    if (textField == self.txtGuestNumber)
+    {
+        NSUInteger guestCount = [self.txtGuestNumber.text integerValue];
+        double total = (guestCount*basLinePrice)+basLinePrice;
+        
+        lblTotal.text = [NSString stringWithFormat:@"$%.0f",total];
     }
 }
 
@@ -442,6 +577,12 @@
     Venue *ven = [arrVenues objectAtIndex:row];
     self.txtVenue.text = [NSString stringWithFormat:@"%@ ▽",ven.venueName];
     SelectedVenueId = [NSString stringWithFormat:@"%d",ven.venueId];
+    
+    //
+    basLinePrice = [ven.info.fastlineCharges integerValue];
+    lblCutLine.text = [NSString stringWithFormat:@"$%lu",(unsigned long)basLinePrice];
+    //
+    
     [self getNotificationsWithVenueID:SelectedVenueId withRoleCode:VISITOR];
 }
 
@@ -461,6 +602,7 @@
                 
                 notifications = [[response valueForKey:@"notifications"] mutableCopy];
                 [self.notificationList reloadData];
+                self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
                 [kAPP_DELEGATE stopLoader];
                 
             } else {

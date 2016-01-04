@@ -7,11 +7,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VIPVc">
             <connections>
+                <outlet property="ContactPopup" destination="a8g-JX-91g" id="rT9-dL-SpR"/>
                 <outlet property="NotificationList" destination="drk-N8-2sC" id="d0A-l8-pbW"/>
+                <outlet property="btnCancel" destination="5Z6-6M-j1g" id="YLT-8y-wfT"/>
+                <outlet property="btnConfirm" destination="HMZ-iK-FQU" id="bq6-oq-ztH"/>
+                <outlet property="innerContactPopup" destination="rho-Hx-rZe" id="gBg-Zn-Hpb"/>
+                <outlet property="lblCutLine" destination="oPe-xX-mCZ" id="9Du-3w-tEo"/>
                 <outlet property="lblNotification" destination="PDV-ho-LFG" id="J9d-WU-ak5"/>
+                <outlet property="lblTotal" destination="3O5-YQ-JAP" id="Wda-3c-B0b"/>
                 <outlet property="orderTableService" destination="PI1-T5-xu1" id="iV6-wT-b3O"/>
                 <outlet property="requestCabService" destination="gCe-JM-dbQ" id="gBu-8g-pHx"/>
                 <outlet property="requestService" destination="d82-pc-QiF" id="FZi-5Y-aHu"/>
+                <outlet property="txtGuestNumber" destination="z70-u1-ZJN" id="mm7-Kh-jyW"/>
                 <outlet property="txtVenue" destination="POl-FY-u1T" id="YIr-Sv-T5Z"/>
                 <outlet property="view" destination="TUp-Y7-wOH" id="xfg-Oi-cR7"/>
                 <outlet property="vipLine" destination="VIO-Xr-DTz" id="ABk-LN-f0A"/>
@@ -218,6 +225,104 @@
             </subviews>
             <color key="backgroundColor" red="0.12549019610000001" green="0.12549019610000001" blue="0.12549019610000001" alpha="1" colorSpace="deviceRGB"/>
             <point key="canvasLocation" x="256" y="122"/>
+        </view>
+        <view contentMode="scaleToFill" id="a8g-JX-91g">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <button opaque="NO" alpha="0.30000001192092896" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lus-b1-OmT">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="CancelPopup:" destination="-1" eventType="touchUpInside" id="VOy-Aj-f5v"/>
+                    </connections>
+                </button>
+                <view contentMode="scaleToFill" id="rho-Hx-rZe">
+                    <rect key="frame" x="10" y="118" width="300" height="331"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of guests" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gtu-pi-o1P">
+                            <rect key="frame" x="12" y="89" width="145" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0" textAlignment="right" minimumFontSize="17" id="z70-u1-ZJN">
+                            <rect key="frame" x="218.99999990165236" y="85" width="70" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="3Xd-Lc-VHf"/>
+                            </connections>
+                        </textField>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="VIP Cut Line Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Q2m-v4-Cix">
+                            <rect key="frame" x="12" y="123" width="168" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oPe-xX-mCZ">
+                            <rect key="frame" x="218.99999990165236" y="123" width="70" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wrq-2x-Iya">
+                            <rect key="frame" x="12" y="152" width="42" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3O5-YQ-JAP">
+                            <rect key="frame" x="218.99999990165236" y="152" width="70" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="HMZ-iK-FQU">
+                            <rect key="frame" x="159" y="204" width="130" height="42"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.50196078430000002" green="0.73725490199999999" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="REQUEST">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="ClickBaseLine:" destination="-1" eventType="touchUpInside" id="Uv8-IA-h06"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="5Z6-6M-j1g">
+                            <rect key="frame" x="16" y="204" width="130" height="42"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.50196078430000002" green="0.73725490199999999" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="5" maxX="0.0" maxY="0.0"/>
+                            <state key="normal" title="CANCEL">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="CancelPopup:" destination="-1" eventType="touchUpInside" id="QKA-tP-H2D"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <point key="canvasLocation" x="619" y="377"/>
         </view>
     </objects>
     <resources>

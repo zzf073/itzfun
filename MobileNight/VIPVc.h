@@ -22,11 +22,19 @@
     UIPickerView *pickerVenue;
     NSArray *arrVenues;
     NSString *SelectedVenueId;
+    NSUInteger basLinePrice;
+    
+    //BaseLine Popup
+    IBOutlet UIView *ContactPopup,*innerContactPopup;
+    IBOutlet UIButton *btnCancel,*btnConfirm;
+    IBOutlet UILabel *lblCutLine,*lblTotal;
 }
 
 @property (nonatomic,retain) IBOutlet UITextField *txtVenue;
 @property (nonatomic, retain) IBOutlet UITableView *notificationList;
 @property (nonatomic, retain) IBOutlet NSLayoutConstraint *TopSpace;
+
+@property (nonatomic,retain) IBOutlet UITextField *txtGuestNumber;
 
 @end
 
