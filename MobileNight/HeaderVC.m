@@ -14,6 +14,7 @@
 #import "ProfileVC.h"
 #import "BookingVC.h"
 #import "AdminVc.h"
+#import "VIPVc.h"
 
 #import "AKTabBarController.h"
 
@@ -60,11 +61,10 @@
                                        image:[UIImage imageNamed:@"event-icon.png"]
                                       target:self
                                       action:@selector(goToEvents)];
-    
-    /*KxMenuItem *booking = [KxMenuItem menuItem:@"Booking"
-                                         image:[UIImage imageNamed:@"bookign-icon.png"]
+    KxMenuItem *booking = [KxMenuItem menuItem:@"VIP"
+                                         image:[UIImage imageNamed:@"reward-icon.png"]
                                         target:self
-                                        action:@selector(goToBooking)];*/
+                                        action:@selector(goToBooking)];
     KxMenuItem *login = [KxMenuItem menuItem:@"Login"
                                        image:[UIImage imageNamed:@"login-icon.png"]
                                       target:self
@@ -85,11 +85,11 @@
     NSArray *items;
     
     if ([[kAPP_DELEGATE visitor] isAdmin])
-        //items = @[city,venue,event,booking,user];
-        items = @[city,venue,event,user];
+        items = @[city,venue,event,booking,user];
+        //items = @[city,venue,event,user];
     else
-        //items = @[city,venue,event,booking,user];
-        items = @[city,venue,event,user];
+        items = @[city,venue,event,booking,user];
+        //items = @[city,venue,event,user];
     
     return items;
 }
@@ -182,7 +182,17 @@
 
 - (void)goToBooking
 {
-    NSLog(@"Booking menu");
+    //NSLog(@"Booking menu");
+    for (UIViewController *vc in self.navigationController.viewControllers)
+    {
+        if ([vc isKindOfClass:[VIPVc class]]) {
+            [self.navigationController popToViewController:vc animated:YES];
+            return;
+        }
+    }
+    //ProfileVC *vc  = [self.storyboard instantiateViewControllerWithIdentifier:@"ProfileVC"];
+    VIPVc *vc = [[VIPVc alloc]initWithNibName:@"VIPVc" bundle:nil];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(UIStatusBarStyle)preferredStatusBarStyle
@@ -221,6 +231,7 @@
                    [UIImage imageNamed:@"venues.png"],
                    [UIImage imageNamed:@"events.png"],
                    //[UIImage imageNamed:@"booking.png"],
+                   [UIImage imageNamed:@"reward-icon.png"],
                    [UIImage imageNamed:@"settings.png"],
                    [UIImage imageNamed:@"admin.png"]];//,
                    //imguser];
@@ -228,6 +239,7 @@
                       [UIImage imageNamed:@"venue-icon.png"],
                       [UIImage imageNamed:@"event-icon.png"],
                       //[UIImage imageNamed:@"bookign-icon.png"],
+                      [UIImage imageNamed:@"reward-icon.png"],
                       [UIImage imageNamed:@"setting-icon.png"],
                       [UIImage imageNamed:@"admin-icon.png"]];//,
                       //imgUserIcon];
@@ -235,7 +247,7 @@
         menuText = @[@"Cities",
                       @"Venues",
                       @"Events",
-                      //@"Booking",
+                      @"VIP",
                       @"Profile",
                      @"Admin"];//,
                       //strUser];
@@ -247,19 +259,21 @@
                    [UIImage imageNamed:@"venues.png"],
                    [UIImage imageNamed:@"events.png"],
                    //[UIImage imageNamed:@"booking.png"],
+                   [UIImage imageNamed:@"reward-icon.png"],
                    [UIImage imageNamed:@"settings.png"],
                    imguser];
          menuIcons = @[[UIImage imageNamed:@"city-icon.png"],
                        [UIImage imageNamed:@"venue-icon.png"],
                        [UIImage imageNamed:@"event-icon.png"],
                        //[UIImage imageNamed:@"bookign-icon.png"],
+                       [UIImage imageNamed:@"reward-icon.png"],
                        [UIImage imageNamed:@"setting-icon.png"],
                        imgUserIcon];
         
         menuText = @[@"Cities",
                      @"Venues",
                      @"Events",
-                     //@"Booking",
+                     @"VIP",
                      @"Settings",
                      strUser];
     }

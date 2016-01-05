@@ -527,13 +527,14 @@ typedef enum {
         else if (index == 2)
             [self goToEvents];
         else if (index == 3)
-            //[self goToBooking];
-            [self goToProfile];
+            [self goToBooking];
+            //[self goToProfile];
         else if (index == 4) {
             //[self goToProfile];
             
             if ([[kAPP_DELEGATE visitor] isAdmin]) {
-                [self gotoAdmin];
+                //[self gotoAdmin];
+                [self goToProfile];
             } else {
                 if ([kAPP_DELEGATE isLogin]) {
                     //[[self.buttons objectAtIndex:3] sendActionsForControlEvents:UIControlEventTouchUpInside];
@@ -689,7 +690,7 @@ typedef enum {
 
 - (void)goToBooking
 {
-    UINavigationController *navController = (UINavigationController *) [[kAPP_DELEGATE tabBarController]selectedViewController];
+    /*UINavigationController *navController = (UINavigationController *) [[kAPP_DELEGATE tabBarController]selectedViewController];
     
     for (UIViewController *vc in navController.viewControllers) {
         if ([vc isKindOfClass:[BookingsVC class]]) {
@@ -698,8 +699,11 @@ typedef enum {
         }
     }
     BookingsVC *vc = [[BookingsVC alloc]initWithNibName:@"BookingsVC" bundle:nil];
-    [navController pushViewController:vc animated:YES];
+    [navController pushViewController:vc animated:YES];*/
 
+    [[kAPP_DELEGATE tabBarController] setSelectedIndex:1];
+    UINavigationController *navController =(UINavigationController *) [[kAPP_DELEGATE tabBarController]selectedViewController];
+    [navController popToRootViewControllerAnimated:YES];
 }
 
 - (void)goToProfile

@@ -66,6 +66,7 @@
                    [UIImage imageNamed:@"venues.png"],
                    [UIImage imageNamed:@"events.png"],
                    //[UIImage imageNamed:@"booking.png"],
+                   [UIImage imageNamed:@"reward-icon.png"],
                    [UIImage imageNamed:@"settings.png"],
                    [UIImage imageNamed:@"admin.png"]];//,
                    //imguser];
@@ -73,6 +74,7 @@
                       [UIImage imageNamed:@"venue-icon.png"],
                       [UIImage imageNamed:@"event-icon.png"],
                       //[UIImage imageNamed:@"bookign-icon.png"],
+                      [UIImage imageNamed:@"reward-icon.png"],
                       [UIImage imageNamed:@"setting-icon.png"],
                       [UIImage imageNamed:@"admin-icon.png"]];//,
                       //imgUserIcon];
@@ -80,7 +82,7 @@
         menuText = @[@"Cities",
                      @"Venues",
                      @"Events",
-                     //@"Booking",
+                     @"VIP",
                      @"Profile",
                      @"Admin"];//,
                      //strUser];
@@ -90,19 +92,21 @@
                    [UIImage imageNamed:@"venues.png"],
                    [UIImage imageNamed:@"events.png"],
                    //[UIImage imageNamed:@"booking.png"],
+                   [UIImage imageNamed:@"reward-icon.png"],
                    [UIImage imageNamed:@"settings.png"],
                    imguser];
         menuIcons = @[[UIImage imageNamed:@"city-icon.png"],
                       [UIImage imageNamed:@"venue-icon.png"],
                       [UIImage imageNamed:@"event-icon.png"],
                       //[UIImage imageNamed:@"bookign-icon.png"],
+                      [UIImage imageNamed:@"reward-icon.png"],
                       [UIImage imageNamed:@"setting-icon.png"],
                       imgUserIcon];
         
         menuText = @[@"Cities",
                      @"Venues",
                      @"Events",
-                     //@"Booking",
+                     @"VIP",
                      @"Settings",
                      strUser];
     }
@@ -179,6 +183,55 @@
     }];
     
     [pickerView dismissViewControllerAnimated:YES completion:nil];
+    
+    //
+    [kAPP_DELEGATE ShowLoader];
+    [self performSelector:@selector(uploadProfileImage) withObject:nil afterDelay:0.1];
+}
+
+-(void)uploadProfileImage
+{
+    NSData *imageData = UIImageJPEGRepresentation(imgvwProfile.image, 1.0);
+    
+    NSMutableDictionary *params=[[NSMutableDictionary alloc]initWithObjectsAndKeys:imageData,@"file", nil];
+    
+    [APIClient uploadImageWithParams:params with:^(NSDictionary *response, NSError *error) {
+        
+        if (response != nil) {
+            
+            NSLog(@"%@",response);
+            
+            NSDictionary *params = @{
+                                     @"email": [[kAPP_DELEGATE visitor] loginId],
+                                     @"name": [[kAPP_DELEGATE visitor] userName],
+                                     @"id": [[kAPP_DELEGATE visitor] loginId],
+                                     @"profileImage" :[response objectForKey:@"original"],
+                                     @"profileImageThumbnail": [response objectForKey:@"thumbnail"]
+                                     };
+            
+            [APIClient createVisitor:params with:^(NSDictionary *response, NSError *error) {
+                
+                [kAPP_DELEGATE stopLoader];
+                
+                if (error == nil) {
+                    
+                    NSInteger code = [[response valueForKey:@"code"] integerValue];
+                    
+                    if (code == 0 || code == 200 || code == 201) {
+
+                        [kAPP_DELEGATE setVisitor:[Visitor getVisitor:response]];
+                    }
+                    
+                }else {
+                    
+                    [[[UIAlertView alloc] initWithTitle:@"Error" message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+                }
+            }];
+        }
+        else
+            NSLog(@"error");
+    }];
+    //
 }
 
 @end

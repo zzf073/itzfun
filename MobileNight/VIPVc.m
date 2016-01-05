@@ -131,13 +131,25 @@
         [orderTableService setHidden:YES];
         [requestService setHidden:YES];
         [requestCabService setHidden:YES];
-        [self.txtVenue setHidden:YES];
+        //[self.txtVenue setHidden:YES];
         
-        lblNotification.frame = CGRectMake(25, 18, 270, 21);
+        //lblNotification.frame = CGRectMake(25, 18, 270, 21);
+        lblNotification.frame = CGRectMake(lblNotification.frame.origin.x, 56, lblNotification.frame.size.width, 21);
         self.notificationList.frame = CGRectMake(0, lblNotification.frame.origin.x+30, screenWidth, screenHeight);
     }
     else
         self.notificationList.frame = CGRectMake(self.notificationList.frame.origin.x, self.notificationList.frame.origin.y, screenWidth, screenHeight-self.notificationList.frame.origin.y-115);
+    
+    if (_refreshHeaderView == nil) {
+        
+        EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.notificationList.bounds.size.height, self.view.frame.size.width, self.notificationList.bounds.size.height)];
+        view.delegate = self;
+        [self.notificationList addSubview:view];
+        _refreshHeaderView = view;
+    }
+    
+    //  update the last update date
+    [_refreshHeaderView refreshLastUpdatedDate];
 }
 
 //
@@ -233,6 +245,7 @@
 }
 
 - (IBAction)btnRequestServiceClicked:(id)sender {
+    
     //RewardDetailVc *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"RewardDetailVc"];
     //[self.navigationController pushViewController:vc animated:YES];
     
@@ -450,7 +463,6 @@
         
         [kAPP_DELEGATE ShowLoader];
         NSDictionary* notification = [notifications objectAtIndex:[sender tag]];
-       
         
         [APIClient processServiceWithParameter:payload forVenue: [[notification valueForKey:@"venueNumber"] integerValue] forNotification:[[notification valueForKey:@"id"] integerValue] with:^(NSDictionary *response, NSError *error) {
             
@@ -476,7 +488,6 @@
 
 -(void)orderServicewithVenueID:(NSString *)venueId withServiceType:(NSString *)serviceType withServiceDescription:(NSString *)description
 {
-    
     /*
     NSString *UrlString = [NSString stringWithFormat:@"http://localhost:8280/WebServices/mobin/venue/services/visitors/11/service"];
     {
@@ -499,12 +510,18 @@
             [[kAPP_DELEGATE Request_timer] invalidate];
             if (error == nil) {
                 
-                [[[UIAlertView alloc] initWithTitle:nil message:@"VIP Service Ordered." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+                if ([serviceType isEqualToString:@"VIP Line"]) {
+                 
+                    [[[UIAlertView alloc] initWithTitle:nil message:@"VIP Service Ordered." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+                    
+                    self.txtGuestNumber.text = @"0";
+                }
+                else
+                {
+                    [[[UIAlertView alloc] initWithTitle:nil message:@"Request Service Ordered." delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
+                }
                 
                 [kAPP_DELEGATE stopLoader];
-                
-                self.txtGuestNumber.text = @"0";
-                
             } else {
                 [kAPP_DELEGATE stopLoader];
             }
@@ -533,23 +550,41 @@
 
 #pragma - UIKeyboardViewController Delegate
 
+- (BOOL)alttextField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    if (textField == self.txtGuestNumber)
+    {
+        [self performSelector:@selector(calculateTotal) withObject:nil afterDelay:0.1];
+    }
+    
+    return YES;
+}
+
+-(void)calculateTotal
+{
+    NSUInteger guestCount = [self.txtGuestNumber.text integerValue];
+    double total = (guestCount*basLinePrice)+basLinePrice;
+    
+    lblTotal.text = [NSString stringWithFormat:@"$%.0f",total];
+}
+
 - (void)alttextFieldDidBeginEditing:(UITextField *)textField;
 {
     if (textField==self.txtVenue)
     {
         [textField setInputView:pickerVenue];
-    }
+    }    
 }
 
 - (void)alttextFieldDidEndEditing:(UITextField *)textField
 {
-    if (textField == self.txtGuestNumber)
+    /*if (textField == self.txtGuestNumber)
     {
         NSUInteger guestCount = [self.txtGuestNumber.text integerValue];
         double total = (guestCount*basLinePrice)+basLinePrice;
         
         lblTotal.text = [NSString stringWithFormat:@"$%.0f",total];
-    }
+    }*/
 }
 
 #pragma mark- PickerView Delegate
@@ -601,6 +636,10 @@
                 NSLog(@"NOTIFICATION RESPONSE: %@",response);
                 
                 notifications = [[response valueForKey:@"notifications"] mutableCopy];
+                //
+                NSArray *reverseOrder=[[notifications reverseObjectEnumerator] allObjects];
+                //
+                notifications = [reverseOrder mutableCopy];
                 [self.notificationList reloadData];
                 self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
                 [kAPP_DELEGATE stopLoader];
@@ -612,6 +651,72 @@
     } else {
         [[[UIAlertView alloc] initWithTitle:internet_not_available message:nil delegate:nil cancelButtonTitle:@"Close" otherButtonTitles:nil, nil] show];
     }
+}
+
+#pragma mark- PullToRefresh
+
+-(IBAction)clickRefresh:(id)sender
+{
+    [kAPP_DELEGATE ShowLoader];
+    [self getNotificationsWithVenueID:SelectedVenueId withRoleCode:VISITOR];
+}
+
+#pragma mark -
+#pragma mark Data Source Loading / Reloading Methods
+
+- (void)reloadTableViewDataSource{
+    
+    //  should be calling your tableviews data source model to reload
+    //  put here just for demo
+    _reloading = YES;
+    
+}
+
+- (void)doneLoadingTableViewData{
+    
+    //  model should call this when its done loading
+    _reloading = NO;
+    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.notificationList];
+}
+
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    [_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+    [_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
+
+#pragma mark -
+#pragma mark EGORefreshTableHeaderDelegate Methods
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view{
+    
+    [self reloadTableViewDataSource];
+    [self getNotificationsWithVenueID:SelectedVenueId withRoleCode:VISITOR];
+    [self performSelector:@selector(doneLoadingTableViewData) withObject:nil afterDelay:3.0];
+    
+}
+
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view{
+    
+    return _reloading; // should return if data source model is reloading
+    
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    
+    return [NSDate date]; // should return date data source was last changed
+    
 }
 
 @end

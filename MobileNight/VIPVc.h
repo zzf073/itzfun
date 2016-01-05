@@ -10,7 +10,12 @@
 #import "HeaderVC.h"
 #import "UIKeyBoardVC.h"
 
-@interface VIPVc : UIKeyBoardVC <UITableViewDataSource,UITableViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate>{
+//
+#import "EGORefreshTableHeaderView.h"
+//
+
+@interface VIPVc : UIKeyBoardVC <UITableViewDataSource,UITableViewDelegate,UIPickerViewDelegate,UIPickerViewDataSource,UITextFieldDelegate,EGORefreshTableHeaderDelegate>
+{
     NSMutableArray *notifications;
     
     IBOutlet UIView *vipLine;
@@ -28,6 +33,12 @@
     IBOutlet UIView *ContactPopup,*innerContactPopup;
     IBOutlet UIButton *btnCancel,*btnConfirm;
     IBOutlet UILabel *lblCutLine,*lblTotal;
+    
+    EGORefreshTableHeaderView *_refreshHeaderView;
+    
+    //  Reloading var should really be your tableviews datasource
+    //  Putting it here for demo purposes
+    BOOL _reloading;
 }
 
 @property (nonatomic,retain) IBOutlet UITextField *txtVenue;
@@ -36,7 +47,7 @@
 
 @property (nonatomic,retain) IBOutlet UITextField *txtGuestNumber;
 
+- (void)reloadTableViewDataSource;
+- (void)doneLoadingTableViewData;
+
 @end
-
-
-

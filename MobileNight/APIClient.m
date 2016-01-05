@@ -14,14 +14,18 @@
     [self callAPI:request with:completionBlock];
 }
 
-+ (void)getVenues:(APICompletionBlock)completionBlock {//OK
++ (void)getVenues:(APICompletionBlock)completionBlock {
+    
+    //OK
     //http://54.67.118.119:8280/WebServices/mobin/venue/services/venues
     NSURL *url = [NSURL URLWithString:@"venue/services/venues" relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
     
 }
-+ (void)getVenuesByCity:(NSDictionary*)params with:(APICompletionBlock)completionBlock {//OK
++ (void)getVenuesByCity:(NSDictionary*)params with:(APICompletionBlock)completionBlock {
+    
+    //OK
     //http://54.67.118.119:8280/WebServices/mobin/venue/services/venues
     NSString* url = @"venue/services/venues";
    
@@ -35,6 +39,7 @@
     
 }
 + (void)getStates:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"venue/services/states" relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
@@ -42,16 +47,19 @@
 
 
 + (void)getCites:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"venue/services/venues/cities" relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
 }
 + (void)getSensors:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"venue/services/sensors" relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
 }
 + (void)getSensorsByVenueId:(int)venueId with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"venue/services/venues/%d/sensors",venueId] relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
@@ -72,21 +80,25 @@
 }
 
 + (void)getEventsByVenueId:(int)venueId with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"venue/services/venues/%d/events",venueId] relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
 }
 + (void)getEventsByType:(NSString *)eventType with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"venue/services/venueevents/%@",eventType] relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
 }
 + (void)getEventsByType:(NSString *)eventType withQuery:(NSString *)query with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"venue/services/venueevents/%@?q=%@",eventType,query] relativeToURL:kBASE_URL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self callAPI:request with:completionBlock];
 }
 + (void)callAPI:(NSURLRequest *)request with:(APICompletionBlock)completionBlock {
+    
     NSLog(@"request = %@", request);
    NSURLSessionDataTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -107,6 +119,7 @@
 }
 
 + (void)loginWith:(NSDictionary *)parameters with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"venue/services/auth/login" relativeToURL:kBASE_URL];
     NSMutableURLRequest *request= [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -118,7 +131,6 @@
 //    NSString *postString = [NSString stringWithFormat:@"loginId=%@&password=%@&loginType=%@",loginId,password,loginType];
 //    [request setHTTPBody:[postString dataUsingEncoding:NSUTF8StringEncoding]];
 
-    
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-type"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
@@ -129,6 +141,7 @@
 }
 
 + (void)signUpWithEmail:(NSString *)email withFirstName:(NSString *)firstName withLastName:(NSString *)lastName with:(APICompletionBlock )completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"signup" relativeToURL:kBASE_URL];
     NSMutableURLRequest *request= [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -138,6 +151,7 @@
 }
 
 + (void)forgotPassword:(NSString *)email with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"forgotPassword" relativeToURL:kBASE_URL];
     NSMutableURLRequest *request= [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -151,6 +165,7 @@
 }
 
 + (void)signupUserViaFB:(NSString *)fbId with:(APICompletionBlock)completionBlock {
+    
     NSURL *url = [NSURL URLWithString:@"fbLogin" relativeToURL:kBASE_URL];
     NSMutableURLRequest *request= [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
@@ -225,7 +240,6 @@
 
 + (void)getVenueRatingAndReviewsWithVenueName:(NSString *)venueName withLatitude:(NSString *)latitude withLongitude:(NSString *)longitude  with:(APICompletionBlock)completionBlock
 {
-    
     NSString *urlString = [NSString stringWithFormat:@"http://api.yelp.com/v2/search?term=%@&ll=%@,%@",venueName,latitude,longitude];
     
     NSString *escapedUrlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -278,4 +292,63 @@
     }
 
 }
+
++ (void)uploadImageWithParams:(NSMutableDictionary *)params with:(APICompletionBlock)completionBlock  {
+    
+    // the boundary string : a random string, that will not repeat in post data, to separate post data fields.
+    NSString *BoundaryConstant = [NSString stringWithString:@"----------V2ymHFg03ehbqgZCaKO6jy"];
+    
+    // string constant for the post parameter 'file'. My server uses this name: `file`. Your's may differ
+    NSString* FileParamConstant = [NSString stringWithString:@"file"];
+    
+    // the server url to which the image (or the media) is uploaded. Use your server url here
+    NSURL* requestURL = [NSURL URLWithString:@"venue/services/upload/profile" relativeToURL:kBASE_URL];
+    
+    // create request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setCachePolicy:NSURLRequestReloadIgnoringLocalCacheData];
+    [request setHTTPShouldHandleCookies:NO];
+    [request setTimeoutInterval:30];
+    [request setHTTPMethod:@"POST"];
+    
+    // set Content-Type in HTTP header
+    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", BoundaryConstant];
+    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
+    
+    // post body
+    NSMutableData *body = [NSMutableData data];
+    
+    // add params (all params are strings)
+    for (NSString *param in params) {
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", BoundaryConstant] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"%@\r\n", [params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    // add image data
+    //NSData *imageData = UIImageJPEGRepresentation(imageToPost, 1.0);
+    NSData *imageData = [params objectForKey:@"file"];
+    if (imageData) {
+        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", BoundaryConstant] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"uploaded_file.png\"\r\n", FileParamConstant] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:[[NSString stringWithString:@"Content-Type: image/png\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+        [body appendData:imageData];
+        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    }
+    
+    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", BoundaryConstant] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // setting the body of the post to the reqeust
+    [request setHTTPBody:body];
+    
+    // set the content-length
+    NSString *postLength = [NSString stringWithFormat:@"%d", [body length]];
+    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+    
+    // set URL
+    [request setURL:requestURL];
+    
+    [self callAPI:request with:completionBlock];
+}
+
 @end

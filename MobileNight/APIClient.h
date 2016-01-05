@@ -41,4 +41,6 @@ typedef void (^APIResultBlock)(BOOL SUCCESS ,NSError *error);
 + (void)orderServiceWithParameter:(NSDictionary *)parameter withVenueId:(NSString *)venueId with:(APICompletionBlock)completionBlock;
 + (void) processServiceWithParameter:dictParams forVenue: (NSInteger)venueNumber  forNotification:(NSInteger) notificationId with:(APICompletionBlock)completionBlock;
 
++ (void)uploadImageWithParams:(NSMutableDictionary *)params with:(APICompletionBlock)completionBlock;
+
 @end
