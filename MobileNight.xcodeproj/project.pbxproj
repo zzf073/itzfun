@@ -14,6 +14,7 @@
 		D8E9F3771C0145F800F8CE79 /* BookingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8E9F3751C0145F800F8CE79 /* BookingsVC.xib */; };
 		E56D00071B6F369E00DC7F24 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56D00061B6F369E00DC7F24 /* FacebookSDK.framework */; };
 		E86F48B61C33E3D80000D800 /* dropdown-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E86F48B51C33E3D80000D800 /* dropdown-bg.png */; };
+		E8A36FB21C3D58A900B70473 /* 16_new.png in Resources */ = {isa = PBXBuildFile; fileRef = E8A36FB11C3D58A900B70473 /* 16_new.png */; };
 		E8D7D1721C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D7D1711C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E8D7D17B1C3BDCC7003AFC4E /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1731C3BDCC7003AFC4E /* grayArrow.png */; };
 		E8D7D17C1C3BDCC7003AFC4E /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1741C3BDCC7003AFC4E /* grayArrow@2x.png */; };
@@ -281,6 +282,7 @@
 		D8E9F3751C0145F800F8CE79 /* BookingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookingsVC.xib; sourceTree = "<group>"; };
 		E56D00061B6F369E00DC7F24 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = MobileNight/FacebookSDK.framework; sourceTree = "<group>"; };
 		E86F48B51C33E3D80000D800 /* dropdown-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropdown-bg.png"; sourceTree = "<group>"; };
+		E8A36FB11C3D58A900B70473 /* 16_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 16_new.png; sourceTree = "<group>"; };
 		E8D7D1701C3BD6ED003AFC4E /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		E8D7D1711C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		E8D7D1731C3BDCC7003AFC4E /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
@@ -1033,6 +1035,7 @@
 				F49E97971B132BE2009CD0EE /* ViewController.h */,
 				F49E97981B132BE2009CD0EE /* ViewController.m */,
 				F41824AF1BCE8CED00FE0869 /* ViewController.xib */,
+				E8A36FB11C3D58A900B70473 /* 16_new.png */,
 				1EA153ED1B2FFBC8002171A4 /* MapDisplayVC.h */,
 				1EA153EE1B2FFBC8002171A4 /* MapDisplayVC.m */,
 				F41824B11BCE8D3200FE0869 /* MapDisplayVC.xib */,
@@ -1343,6 +1346,7 @@
 				F4080E431B2C008A00930712 /* password-icon.png in Resources */,
 				F4566EB51B537986004224FA /* home@2x.png in Resources */,
 				F4E707AE1B4FF8BE00653A01 /* Movie.m4v in Resources */,
+				E8A36FB21C3D58A900B70473 /* 16_new.png in Resources */,
 				F4080A241B18265800AF8DD3 /* booking@2x.png in Resources */,
 				F4E6A0C51B39A035003B21F7 /* list-thumb1.png in Resources */,
 				F48FE93E1B2B0FA500B46EC2 /* menu.png in Resources */,

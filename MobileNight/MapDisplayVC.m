@@ -203,21 +203,77 @@
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
-    static NSString *reuseId = @"StandardPin";
+    /*static NSString *reuseId = @"StandardPin";
     MKPinAnnotationView *aView = (MKPinAnnotationView *)[mapView
                                                          dequeueReusableAnnotationViewWithIdentifier:reuseId];
     if (aView == nil)
     {
         aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
                                                  reuseIdentifier:reuseId];
-        aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        aView.canShowCallout = YES;
     }
-    
+
+    aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    aView.canShowCallout = YES;
+
     aView.annotation = annotation;
     
-    return aView;
+    return aView;*/
+                                  
+    MKPinAnnotationView *pinView = nil;
+    
+    //
+    //
+    if(annotation != mapView.userLocation)
+    {
+        static NSString *defaultPinID = @"com.invasivecode.pin";
+        pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
+        
+        if ( pinView == nil ) pinView = [[MKPinAnnotationView alloc]
+                                          initWithAnnotation:annotation reuseIdentifier:defaultPinID];
+        
+        //pinView.pinColor = MKPinAnnotationColorRed;
+        pinView.canShowCallout = YES;
+        //pinView.animatesDrop = YES;
+        
+        //
+        UIView *viewData = [[UIView alloc]initWithFrame:CGRectMake(-25, -5, 70, 50)];
+        viewData.backgroundColor = [UIColor clearColor];
+        
+        UIImageView *imgv = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 70, 50)];
+        imgv.image = [UIImage imageNamed:@"16_new.png"];
+        [viewData addSubview:imgv];
+        
+        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(5 , 0, 60, 37)];
+        lbl.textAlignment = NSTextAlignmentCenter;
+        lbl.font = [UIFont systemFontOfSize:11.0];
+        lbl.numberOfLines = 2;
+        lbl.backgroundColor = [UIColor clearColor];
+        lbl.textColor = [UIColor whiteColor];
+        lbl.text = @"Shubham Club";
+        
+        [viewData addSubview:lbl];
+        
+        [pinView addSubview:viewData];
+        //
+
+        pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    }
+    
+    return pinView;
 }
+
+//
+- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+{
+    /*MKAnnotationView *annotationView = [views objectAtIndex:0];
+    id<MKAnnotation> mp = [annotationView annotation];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate] ,350,350);
+    
+    [mv setRegion:region animated:YES];
+    
+    [self.mapView selectAnnotation:mp animated:YES];*/
+}
+//
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
     
