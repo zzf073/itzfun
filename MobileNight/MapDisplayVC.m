@@ -12,6 +12,10 @@
 #import "VenueDetailVC.h"
 #import "ListDisplayVC.h"
 
+//
+#import "BasicMapAnnotation.h"
+//
+
 #define DEFAULT_DELTA_LATITUDE		0.030092
 #define DETAULT_DELTA_LONGITUDE		0.030092
 
@@ -28,9 +32,13 @@
 @implementation MapDisplayVC
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    NSLog(@"Perform");
+
+    //
+    tagggs=500;
+    //
+    
      self.navigationController.navigationBarHidden = YES;
 
     queue = [[NSOperationQueue alloc] init];
@@ -42,7 +50,6 @@
     
     MKCoordinateRegion defaultRegion = MKCoordinateRegionMake([kAPP_DELEGATE userLocation], MKCoordinateSpanMake(DEFAULT_DELTA_LATITUDE, DETAULT_DELTA_LONGITUDE));
     [self.mapView setRegion:defaultRegion];
-    
     
     if ([kAPP_DELEGATE checkForInternetConnection]) {
         [kAPP_DELEGATE secheduleTimer];
@@ -133,10 +140,14 @@
 
 -(void) Create_Annotation
 {
+    //
+    NSMutableArray *annoArr=[[NSMutableArray alloc]init];
+    //
+    
     for (int i =0; i<arrVenues.count; i++) {
         
         Venue *venue = [arrVenues objectAtIndex:i];
-        MKPointAnnotation *mapPin = [[MKPointAnnotation alloc] init];
+        /*MKPointAnnotation *mapPin = [[MKPointAnnotation alloc] init];
         
         // setup the map pin with all data and add to map view
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(venue.latitude, venue.longitude);
@@ -159,8 +170,25 @@
         if (i==0) {
             MKCoordinateRegion defaultRegion = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(DEFAULT_DELTA_LATITUDE, DETAULT_DELTA_LONGITUDE));
             [self.mapView setRegion:defaultRegion];
-        }
+        }*/
+        
+        //
+        CLLocationDegrees latitude=venue.latitude;
+        CLLocationDegrees longitude=venue.longitude;
+        
+        BasicMapAnnotation *  annotation=[[BasicMapAnnotation alloc] initWithLatitude:latitude andLongitude:longitude];
+        
+        annotation.ttitle=[NSString stringWithFormat:@"%@",venue.venueName];
+        
+        [annoArr addObject:annotation];
+        //
     }
+    
+    //
+    NSArray *myArray = [annoArr copy];
+    
+    [self.mapView addAnnotations:myArray];
+    //
 }
 
 /*
@@ -218,7 +246,8 @@
     aView.annotation = annotation;
     
     return aView;*/
-                                  
+    
+    /*
     MKPinAnnotationView *pinView = nil;
     
     //
@@ -260,6 +289,46 @@
     }
     
     return pinView;
+     */
+    
+    BasicMapAnnotation *TempAnno=annotation;
+    MKAnnotationView *annotationView =[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];
+    
+    annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"CustomAnnotation"];
+    annotationView.canShowCallout = NO;
+    
+    NSString *str=TempAnno.ttitle;
+    
+    //annotationView.image = [UIImage imageNamed:@"140_new.png"];
+    
+    int i=[str intValue];
+    
+    annotationView.tag=tagggs+i;
+    
+    //
+    annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    
+    UIView *viewData = [[UIView alloc]initWithFrame:CGRectMake(-40, -40, 70, 50)];
+    viewData.backgroundColor = [UIColor clearColor];
+    
+    UIImageView *imgv = [[UIImageView alloc]initWithFrame:CGRectMake(0, 2, 75, 30)];
+    imgv.image = [UIImage imageNamed:@"round-blackbg1.png"];
+    [viewData addSubview:imgv];
+    
+    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(4 , 0, 65, 27)];
+    lbl.textAlignment = NSTextAlignmentCenter;
+    lbl.font = [UIFont systemFontOfSize:10.0];
+    lbl.numberOfLines = 2;
+    lbl.backgroundColor = [UIColor clearColor];
+    lbl.textColor = [UIColor whiteColor];
+    lbl.text = str;
+    
+    [viewData addSubview:lbl];
+    
+    [annotationView addSubview:viewData];
+    //
+    
+    return annotationView;
 }
 
 //

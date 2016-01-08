@@ -14,7 +14,6 @@
 		D8E9F3771C0145F800F8CE79 /* BookingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8E9F3751C0145F800F8CE79 /* BookingsVC.xib */; };
 		E56D00071B6F369E00DC7F24 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56D00061B6F369E00DC7F24 /* FacebookSDK.framework */; };
 		E86F48B61C33E3D80000D800 /* dropdown-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E86F48B51C33E3D80000D800 /* dropdown-bg.png */; };
-		E8A36FB21C3D58A900B70473 /* 16_new.png in Resources */ = {isa = PBXBuildFile; fileRef = E8A36FB11C3D58A900B70473 /* 16_new.png */; };
 		E8D7D1721C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D7D1711C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E8D7D17B1C3BDCC7003AFC4E /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1731C3BDCC7003AFC4E /* grayArrow.png */; };
 		E8D7D17C1C3BDCC7003AFC4E /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1741C3BDCC7003AFC4E /* grayArrow@2x.png */; };
@@ -24,6 +23,8 @@
 		E8D7D1801C3BDCC7003AFC4E /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1781C3BDCC7003AFC4E /* blueArrow@2x.png */; };
 		E8D7D1811C3BDCC7003AFC4E /* whiteArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1791C3BDCC7003AFC4E /* whiteArrow.png */; };
 		E8D7D1821C3BDCC7003AFC4E /* whiteArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D17A1C3BDCC7003AFC4E /* whiteArrow@2x.png */; };
+		E8E13CB41C3E7E900075AD74 /* BasicMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E8E13CB31C3E7E900075AD74 /* BasicMapAnnotation.m */; };
+		E8E5CA941C3E9A110099DE3A /* round-blackbg1.png in Resources */ = {isa = PBXBuildFile; fileRef = E8E5CA931C3E9A110099DE3A /* round-blackbg1.png */; };
 		F40304011B2E8BF800D1BB54 /* ColorUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = F40304001B2E8BF800D1BB54 /* ColorUtils.m */; };
 		F405259D1B20610700724517 /* TTLocationHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F405259C1B20610700724517 /* TTLocationHandler.m */; };
 		F40525A61B20674D00724517 /* SecureUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = F40525A51B20674D00724517 /* SecureUDID.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -282,7 +283,6 @@
 		D8E9F3751C0145F800F8CE79 /* BookingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookingsVC.xib; sourceTree = "<group>"; };
 		E56D00061B6F369E00DC7F24 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = MobileNight/FacebookSDK.framework; sourceTree = "<group>"; };
 		E86F48B51C33E3D80000D800 /* dropdown-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropdown-bg.png"; sourceTree = "<group>"; };
-		E8A36FB11C3D58A900B70473 /* 16_new.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 16_new.png; sourceTree = "<group>"; };
 		E8D7D1701C3BD6ED003AFC4E /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		E8D7D1711C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		E8D7D1731C3BDCC7003AFC4E /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
@@ -293,6 +293,9 @@
 		E8D7D1781C3BDCC7003AFC4E /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
 		E8D7D1791C3BDCC7003AFC4E /* whiteArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = whiteArrow.png; sourceTree = "<group>"; };
 		E8D7D17A1C3BDCC7003AFC4E /* whiteArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteArrow@2x.png"; sourceTree = "<group>"; };
+		E8E13CB21C3E7E900075AD74 /* BasicMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicMapAnnotation.h; sourceTree = "<group>"; };
+		E8E13CB31C3E7E900075AD74 /* BasicMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicMapAnnotation.m; sourceTree = "<group>"; };
+		E8E5CA931C3E9A110099DE3A /* round-blackbg1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "round-blackbg1.png"; sourceTree = "<group>"; };
 		F40303FF1B2E8BF800D1BB54 /* ColorUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorUtils.h; sourceTree = "<group>"; };
 		F40304001B2E8BF800D1BB54 /* ColorUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorUtils.m; sourceTree = "<group>"; };
 		F405259B1B20610700724517 /* TTLocationHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTLocationHandler.h; sourceTree = "<group>"; };
@@ -1035,7 +1038,9 @@
 				F49E97971B132BE2009CD0EE /* ViewController.h */,
 				F49E97981B132BE2009CD0EE /* ViewController.m */,
 				F41824AF1BCE8CED00FE0869 /* ViewController.xib */,
-				E8A36FB11C3D58A900B70473 /* 16_new.png */,
+				E8E5CA931C3E9A110099DE3A /* round-blackbg1.png */,
+				E8E13CB21C3E7E900075AD74 /* BasicMapAnnotation.h */,
+				E8E13CB31C3E7E900075AD74 /* BasicMapAnnotation.m */,
 				1EA153ED1B2FFBC8002171A4 /* MapDisplayVC.h */,
 				1EA153EE1B2FFBC8002171A4 /* MapDisplayVC.m */,
 				F41824B11BCE8D3200FE0869 /* MapDisplayVC.xib */,
@@ -1346,7 +1351,6 @@
 				F4080E431B2C008A00930712 /* password-icon.png in Resources */,
 				F4566EB51B537986004224FA /* home@2x.png in Resources */,
 				F4E707AE1B4FF8BE00653A01 /* Movie.m4v in Resources */,
-				E8A36FB21C3D58A900B70473 /* 16_new.png in Resources */,
 				F4080A241B18265800AF8DD3 /* booking@2x.png in Resources */,
 				F4E6A0C51B39A035003B21F7 /* list-thumb1.png in Resources */,
 				F48FE93E1B2B0FA500B46EC2 /* menu.png in Resources */,
@@ -1401,6 +1405,7 @@
 				E8D7D17D1C3BDCC7003AFC4E /* blackArrow.png in Resources */,
 				F4626E5B1B15FABE0018B5E4 /* menu-icon.png in Resources */,
 				F4080E821B2C061C00930712 /* shadow-detail.png in Resources */,
+				E8E5CA941C3E9A110099DE3A /* round-blackbg1.png in Resources */,
 				F43A68431B18A6C70005AFC8 /* settings@3x.png in Resources */,
 				F4566EBB1B537986004224FA /* reward@3x.png in Resources */,
 				F4F73FC31B2C3E16000DB616 /* map.png in Resources */,
@@ -1485,6 +1490,7 @@
 				F4905A381B160C2D007975D8 /* HeaderVC.m in Sources */,
 				F4080E901B2C13BD00930712 /* ChangePasswordVc.m in Sources */,
 				F410D0ED1B16E1CE00A1FB36 /* EditProfileVC.m in Sources */,
+				E8E13CB41C3E7E900075AD74 /* BasicMapAnnotation.m in Sources */,
 				F435513A1B4F96EB00EF91AB /* MHTabBarSegue.m in Sources */,
 				F42E0F7E1B147B4300E6A202 /* KxMenu.m in Sources */,
 				F4ED4E4F1B158BC900AD8322 /* UIImage+MultiFormat.m in Sources */,
