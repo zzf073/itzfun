@@ -135,7 +135,7 @@
         
         //lblNotification.frame = CGRectMake(25, 18, 270, 21);
         lblNotification.frame = CGRectMake(lblNotification.frame.origin.x, 56, lblNotification.frame.size.width, 21);
-        self.notificationList.frame = CGRectMake(0, lblNotification.frame.origin.x+30, screenWidth, screenHeight);
+        self.notificationList.frame = CGRectMake(0, lblNotification.frame.origin.y+30, screenWidth, screenHeight-200);
     }
     else
         self.notificationList.frame = CGRectMake(self.notificationList.frame.origin.x, self.notificationList.frame.origin.y, screenWidth, screenHeight-self.notificationList.frame.origin.y-115);
@@ -177,33 +177,41 @@
      */
     
     //
-    if (SelectedVenueId.length == 0) {
-     
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+    if (![kAPP_DELEGATE isLogin])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please login first." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
         [alert show];
     }
-    else {
-        
-        ContactPopup.frame=CGRectMake(0, 0, screenWidth, screenHeight);
-        [self.view addSubview:ContactPopup];
-        
-        keyBoardController=[[UIKeyboardViewController alloc] initWithControllerDelegate:self];
-        [keyBoardController addToolbarToKeyboard];
-
-        CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
-        popAnimation.duration = 0.4;
-        popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
-                                [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.0f)],
-                                [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9f, 0.9f, 1.0f)],
-                                [NSValue valueWithCATransform3D:CATransform3DIdentity]];
-        popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
-        popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
-                                         [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
-                                         [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
-        [ContactPopup.layer addAnimation:popAnimation forKey:nil];
-        innerContactPopup.center=ContactPopup.center;
-    }
+    else
+    {
+        if (SelectedVenueId.length == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+            [alert show];
+        }
+        else {
+            
+            ContactPopup.frame=CGRectMake(0, 0, screenWidth, screenHeight);
+            [self.view addSubview:ContactPopup];
+            
+            keyBoardController=[[UIKeyboardViewController alloc] initWithControllerDelegate:self];
+            [keyBoardController addToolbarToKeyboard];
+            
+            CAKeyframeAnimation *popAnimation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+            popAnimation.duration = 0.4;
+            popAnimation.values = @[[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.01f, 0.01f, 1.0f)],
+                                    [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1f, 1.1f, 1.0f)],
+                                    [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9f, 0.9f, 1.0f)],
+                                    [NSValue valueWithCATransform3D:CATransform3DIdentity]];
+            popAnimation.keyTimes = @[@0.2f, @0.5f, @0.75f, @1.0f];
+            popAnimation.timingFunctions = @[[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut],
+                                             [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut]];
+            [ContactPopup.layer addAnimation:popAnimation forKey:nil];
+            innerContactPopup.center=ContactPopup.center;
+        }
         //[self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
+    }
     //
 }
 
@@ -215,14 +223,22 @@
 
 -(IBAction)ClickBaseLine:(id)sender
 {
-    NSUInteger count = [self.txtGuestNumber.text integerValue];
-    if (count == 0) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter guest number greater than zero." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+    if (![kAPP_DELEGATE isLogin])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please login first." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
         [alert show];
     }
     else
-        [self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
+    {
+        NSUInteger count = [self.txtGuestNumber.text integerValue];
+        if (count == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter guest number greater than zero." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+            [alert show];
+        }
+        else
+            [self orderServicewithVenueID:SelectedVenueId withServiceType:@"VIP Line" withServiceDescription:@"VIP Line"];
+    }
 }
 
 - (IBAction)btnOrderTableServiceClicked:(id)sender {
@@ -230,17 +246,25 @@
     //RewardDetailVc *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"RewardDetailVc"];
     //[self.navigationController pushViewController:vc animated:YES];
     
-    if (SelectedVenueId.length == 0) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+    if (![kAPP_DELEGATE isLogin])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please login first." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
         [alert show];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Order Table Service" message:@"Please enter how many tables to reserve." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reserve",nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        alert.tag = 4545;
-        [alert show];
+        if (SelectedVenueId.length == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Order Table Service" message:@"Please enter how many tables to reserve." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Reserve",nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = 4545;
+            [alert show];
+        }
     }
 }
 
@@ -249,56 +273,72 @@
     //RewardDetailVc *vc = [self.storyboard instantiateViewControllerWithIdentifier:@"RewardDetailVc"];
     //[self.navigationController pushViewController:vc animated:YES];
     
-    if (SelectedVenueId.length == 0) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+    if (![kAPP_DELEGATE isLogin])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please login first." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
         [alert show];
     }
     else
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Request Service"
-                                                        message:@"Please describe your service request."
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Request",nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        alert.tag = 6565;
-        [alert show];
+        if (SelectedVenueId.length == 0) {
+            
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+            [alert show];
+        }
+        else
+        {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Request Service"
+                                                            message:@"Please describe your service request."
+                                                           delegate:self
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:@"Request",nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = 6565;
+            [alert show];
+        }
     }
 }
 
 - (IBAction)btnPickupServiceClicked:(id)sender
 {
-    if (SelectedVenueId.length == 0) {
-        
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+    if (![kAPP_DELEGATE isLogin])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please login first." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
         [alert show];
     }
     else
     {
-        if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]])
-        {
-            NSString *Latitude = [kAPP_DELEGATE CurrentLatitude];
-            NSString *Longitude = [kAPP_DELEGATE CurrentLongitude];
-            NSString *ClientKey = @"YOUR_CLIENT_ID";
+        if (SelectedVenueId.length == 0) {
             
-            NSString *URL = [NSString stringWithFormat:@"uber://?client_id=%@&action=setPickup&pickup[latitude]=%@&pickup[longitude]=%@",ClientKey,Latitude,Longitude];
-            //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
-            
-            // this will invoke the UBER app if it is already installed and show the current location of the consumer as pickup
-            
-            WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
-            openUrl.strLink = URL;
-            [self.navigationController pushViewController:openUrl animated:YES];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please select venue." message:nil delegate:self cancelButtonTitle:@"Close" otherButtonTitles:nil,nil];
+            [alert show];
         }
-        else {
-            
-            // No Uber app! Open Mobile Website.
-            //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.uber.com"]];
-            
-            WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
-            openUrl.strLink = [NSString stringWithFormat:@"https://www.uber.com"];
-            [self.navigationController pushViewController:openUrl animated:YES];
+        else
+        {
+            if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"uber://"]])
+            {
+                NSString *Latitude = [kAPP_DELEGATE CurrentLatitude];
+                NSString *Longitude = [kAPP_DELEGATE CurrentLongitude];
+                NSString *ClientKey = @"YOUR_CLIENT_ID";
+                
+                NSString *URL = [NSString stringWithFormat:@"uber://?client_id=%@&action=setPickup&pickup[latitude]=%@&pickup[longitude]=%@",ClientKey,Latitude,Longitude];
+                //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:URL]];
+                
+                // this will invoke the UBER app if it is already installed and show the current location of the consumer as pickup
+                
+                WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+                openUrl.strLink = URL;
+                [self.navigationController pushViewController:openUrl animated:YES];
+            }
+            else {
+                
+                // No Uber app! Open Mobile Website.
+                //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.uber.com"]];
+                
+                WebViewController *openUrl = [[WebViewController alloc]initWithNibName:@"WebViewController" bundle:nil];
+                openUrl.strLink = [NSString stringWithFormat:@"https://www.uber.com"];
+                [self.navigationController pushViewController:openUrl animated:YES];
+            }
         }
     }
 }
@@ -376,6 +416,9 @@
     [cell addSubview:notificationText];
     
     UILabel *notificationStatus = [[UILabel alloc]initWithFrame:CGRectMake(notificationIcon.frame.origin.x + notificationIcon.frame.size.width + 180, cell.frame.size.height/2-10, 200, 16)];
+    //
+    NSString *strOrderStatus = [NSString stringWithFormat:@"%@",[[notifications objectAtIndex:indexPath.row] valueForKey:@"status"]];
+    //
     notificationStatus.text = [[notifications objectAtIndex:indexPath.row] valueForKey:@"status"];
     notificationStatus.textColor = [UIColor whiteColor];
     notificationStatus.font = [UIFont systemFontOfSize:15.0];
@@ -423,9 +466,19 @@
         [AcceptButton addTarget:self
                          action:@selector(AcceptButtonAction:)
                forControlEvents:UIControlEventTouchUpInside];
-        [AcceptButton setTitle:@"Accept" forState:UIControlStateNormal];
+        //[AcceptButton setTitle:@"Accept" forState:UIControlStateNormal];
+        
         AcceptButton.frame = CGRectMake(notificationText.frame.origin.x, notificationText.frame.origin.y + notificationText.frame.size.height + 4, 50, 20);
         [AcceptButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
+        //
+        if ([strOrderStatus isEqualToString:@"REQUEST"])
+            [AcceptButton setTitle:@"Accept" forState:UIControlStateNormal];
+        else
+            [AcceptButton setTitle:@"In Progress" forState:UIControlStateNormal];
+        [AcceptButton sizeToFit];
+        //
+
         AcceptButton.tag = indexPath.row;
         [cell addSubview:AcceptButton];
         
@@ -433,14 +486,24 @@
         [RejectButton addTarget:self
                          action:@selector(RejectButtonAction:)
                forControlEvents:UIControlEventTouchUpInside];
-        [RejectButton setTitle:@"Reject" forState:UIControlStateNormal];
+        //[RejectButton setTitle:@"Reject" forState:UIControlStateNormal];
+        
         [RejectButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         RejectButton.frame = CGRectMake(AcceptButton.frame.origin.x + AcceptButton.frame.size.width + 20, notificationText.frame.origin.y + notificationText.frame.size.height + 4, 50, 20);
+        
+        //
+        if ([strOrderStatus isEqualToString:@"REQUEST"])
+            [RejectButton setTitle:@"Reject" forState:UIControlStateNormal];
+        else
+            [RejectButton setTitle:@"Completed" forState:UIControlStateNormal];
+        [RejectButton sizeToFit];
+        //
+
         RejectButton.tag = indexPath.row;
         [cell addSubview:RejectButton];
     }
     
-    self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
+    //self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
     
     return cell;
 }
@@ -472,7 +535,7 @@
             if (error == nil) {
                 [notifications removeObjectAtIndex:[sender tag]];
                 [self.notificationList reloadData];
-                self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
+                //self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
             }
         }];
     } else {
@@ -641,7 +704,7 @@
                 //
                 notifications = [reverseOrder mutableCopy];
                 [self.notificationList reloadData];
-                self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
+                //self.notificationList.contentSize = CGSizeMake(screenWidth, self.notificationList.contentSize.height);
                 [kAPP_DELEGATE stopLoader];
                 
             } else {

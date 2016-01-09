@@ -159,7 +159,6 @@
         self.lblMale.text = [NSString stringWithFormat:@"%.f%@",self.sliderMale.value,@"%"];
         self.lblFemale.text = [NSString stringWithFormat:@"%.f%@",self.sliderFemale.value,@"%"];
     }
-    
 }
 
 #pragma - UIKeyboardViewController delegate methods
@@ -211,24 +210,30 @@
         [textField setInputView:pickerVenue];
     }
 }
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
+
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    
     return arrVenues.count;
 }
+
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    
     Venue *ven = [arrVenues objectAtIndex:row];
     if (![Util isNullValue:ven.venueName]) {
         return ven.venueName;
     }
     return nil;
 }
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-  
     Venue *ven = [arrVenues objectAtIndex:row];
     selectedVenue = ven;
+    
     if (![Util isNullValue:[ven.info male]]) {
         NSInteger SliderMaleRatio = 100 - [ven.info.male integerValue];
         self.sliderMale.value = SliderMaleRatio;

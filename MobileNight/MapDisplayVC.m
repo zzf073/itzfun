@@ -14,6 +14,7 @@
 
 //
 #import "BasicMapAnnotation.h"
+#import "CalloutMapAnnotation.h"
 //
 
 #define DEFAULT_DELTA_LATITUDE		0.030092
@@ -25,6 +26,11 @@
     NSOperationQueue  *queue;
     UIView *listVc;
     ListDisplayVC *vc;
+    
+    //
+    NSMutableArray *annoArr;
+    CalloutMapAnnotation *_calloutAnnotation;
+    //
 }
 
 @end
@@ -106,6 +112,7 @@
     NSMutableArray *marrOperation = [NSMutableArray array];
     
     for (int i = 0; i<arrVenues.count; i++) {
+        
         NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
             Venue *ven = [arrVenues objectAtIndex:i];
             [APIClient getVenueDetailById:ven.venueId with:^(NSDictionary *response, NSError *error) {
@@ -121,6 +128,7 @@
                          change:(NSDictionary *)change context:(void *)context
 {
     if (object == queue && [keyPath isEqualToString:@"operations"]) {
+        
         if ([queue.operations count] == 0) {
             // Do something here when your queue has completed
             NSLog(@"queue has completed %@",arrVenues);
@@ -141,7 +149,7 @@
 -(void) Create_Annotation
 {
     //
-    NSMutableArray *annoArr=[[NSMutableArray alloc]init];
+    annoArr=[[NSMutableArray alloc]init];
     //
     
     for (int i =0; i<arrVenues.count; i++) {
@@ -149,7 +157,6 @@
         Venue *venue = [arrVenues objectAtIndex:i];
         /*MKPointAnnotation *mapPin = [[MKPointAnnotation alloc] init];
         
-        // setup the map pin with all data and add to map view
         CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(venue.latitude, venue.longitude);
         
         mapPin.title = venue.venueName;
@@ -212,7 +219,6 @@
 }
 */
 
-
 /*
 -(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
 {
@@ -224,9 +230,19 @@
 }
 */
 
-
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
+    NSMutableDictionary *dic=[annoArr objectAtIndex:view.tag-500];
+    
+    NSString *strAddress=[NSString stringWithFormat:@"%@",[dic objectForKey:@"Address"]];
+    NSString *strName=[NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
+    
+    _calloutAnnotation = [[CalloutMapAnnotation alloc]
+                          initWithLatitude:view.annotation.coordinate.latitude
+                          andLongitude:view.annotation.coordinate.longitude];
+    
+    [mapView addAnnotation:_calloutAnnotation];
+    [mapView setCenterCoordinate:_calloutAnnotation.coordinate animated:YES];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -289,7 +305,7 @@
     }
     
     return pinView;
-     */
+    */
     
     BasicMapAnnotation *TempAnno=annotation;
     MKAnnotationView *annotationView =[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];
@@ -297,7 +313,7 @@
     annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"CustomAnnotation"];
     annotationView.canShowCallout = NO;
     
-    NSString *str=TempAnno.ttitle;
+    NSString *str=@"Title";//TempAnno.ttitle;
     
     //annotationView.image = [UIImage imageNamed:@"140_new.png"];
     

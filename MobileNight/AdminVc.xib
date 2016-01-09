@@ -16,7 +16,7 @@
                 <outlet property="txtCoverCharge" destination="77e-ES-UNH" id="HBX-kw-bBG"/>
                 <outlet property="txtCutlineCharge" destination="zoJ-fX-fVM" id="bng-Vn-kKW"/>
                 <outlet property="txtNoOfTables" destination="uLO-2T-AjW" id="oTe-Dg-MqZ"/>
-                <outlet property="txtVenue" destination="fdh-w5-I4L" id="KUo-Gf-9gZ"/>
+                <outlet property="txtVenue" destination="Cfa-w7-6Tp" id="gLK-9n-wJk"/>
                 <outlet property="txtWaitTime" destination="Fsq-UK-mXm" id="s1K-G9-RLf"/>
                 <outlet property="view" destination="F0E-RC-GnL" id="lOz-km-RFd"/>
             </connections>
@@ -96,11 +96,21 @@
                                             <color key="textColor" red="0.18039215689999999" green="0.23137254900000001" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-bg.png" id="mcG-eo-q8e">
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Tap here to select venue  ▽" minimumFontSize="15" id="Cfa-w7-6Tp">
+                                            <rect key="frame" x="57" y="13" width="247" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="19"/>
+                                            <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="-1" id="nnl-2F-rw9"/>
+                                            </connections>
+                                        </textField>
+                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-bg.png" id="mcG-eo-q8e">
                                             <rect key="frame" x="57" y="11" width="239" height="34"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
-                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap here to select venue" minimumFontSize="17" id="fdh-w5-I4L">
+                                        <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tap here to select venue" minimumFontSize="17" id="fdh-w5-I4L">
                                             <rect key="frame" x="65" y="13" width="223" height="30"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>

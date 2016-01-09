@@ -14,6 +14,7 @@
 		D8E9F3771C0145F800F8CE79 /* BookingsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = D8E9F3751C0145F800F8CE79 /* BookingsVC.xib */; };
 		E56D00071B6F369E00DC7F24 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E56D00061B6F369E00DC7F24 /* FacebookSDK.framework */; };
 		E86F48B61C33E3D80000D800 /* dropdown-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E86F48B51C33E3D80000D800 /* dropdown-bg.png */; };
+		E88D5A181C41302900930A32 /* CalloutMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = E88D5A171C41302900930A32 /* CalloutMapAnnotation.m */; };
 		E8D7D1721C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = E8D7D1711C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E8D7D17B1C3BDCC7003AFC4E /* grayArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1731C3BDCC7003AFC4E /* grayArrow.png */; };
 		E8D7D17C1C3BDCC7003AFC4E /* grayArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E8D7D1741C3BDCC7003AFC4E /* grayArrow@2x.png */; };
@@ -283,6 +284,8 @@
 		D8E9F3751C0145F800F8CE79 /* BookingsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BookingsVC.xib; sourceTree = "<group>"; };
 		E56D00061B6F369E00DC7F24 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = MobileNight/FacebookSDK.framework; sourceTree = "<group>"; };
 		E86F48B51C33E3D80000D800 /* dropdown-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropdown-bg.png"; sourceTree = "<group>"; };
+		E88D5A161C41302900930A32 /* CalloutMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutMapAnnotation.h; sourceTree = "<group>"; };
+		E88D5A171C41302900930A32 /* CalloutMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutMapAnnotation.m; sourceTree = "<group>"; };
 		E8D7D1701C3BD6ED003AFC4E /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		E8D7D1711C3BD6ED003AFC4E /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		E8D7D1731C3BDCC7003AFC4E /* grayArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grayArrow.png; sourceTree = "<group>"; };
@@ -679,6 +682,18 @@
 			name = RefreshTableHeaderView;
 			sourceTree = "<group>";
 		};
+		E88D5A151C412FF600930A32 /* Custom Pin */ = {
+			isa = PBXGroup;
+			children = (
+				E88D5A161C41302900930A32 /* CalloutMapAnnotation.h */,
+				E88D5A171C41302900930A32 /* CalloutMapAnnotation.m */,
+				E8E5CA931C3E9A110099DE3A /* round-blackbg1.png */,
+				E8E13CB21C3E7E900075AD74 /* BasicMapAnnotation.h */,
+				E8E13CB31C3E7E900075AD74 /* BasicMapAnnotation.m */,
+			);
+			name = "Custom Pin";
+			sourceTree = "<group>";
+		};
 		F40303FE1B2E8BF800D1BB54 /* ColorUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -1038,9 +1053,6 @@
 				F49E97971B132BE2009CD0EE /* ViewController.h */,
 				F49E97981B132BE2009CD0EE /* ViewController.m */,
 				F41824AF1BCE8CED00FE0869 /* ViewController.xib */,
-				E8E5CA931C3E9A110099DE3A /* round-blackbg1.png */,
-				E8E13CB21C3E7E900075AD74 /* BasicMapAnnotation.h */,
-				E8E13CB31C3E7E900075AD74 /* BasicMapAnnotation.m */,
 				1EA153ED1B2FFBC8002171A4 /* MapDisplayVC.h */,
 				1EA153EE1B2FFBC8002171A4 /* MapDisplayVC.m */,
 				F41824B11BCE8D3200FE0869 /* MapDisplayVC.xib */,
@@ -1105,6 +1117,7 @@
 		F4ED4E161B1578B100AD8322 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
+				E88D5A151C412FF600930A32 /* Custom Pin */,
 				E888C3521C3BB19500620601 /* RefreshTableHeaderView */,
 				F4E3EFAB1BCFD3D700ABC402 /* AKTabBarController */,
 				F43551341B4F96EB00EF91AB /* MHCustomTabBarController */,
@@ -1205,7 +1218,7 @@
 				TargetAttributes = {
 					F49E978C1B132BE2009CD0EE = {
 						CreatedOnToolsVersion = 6.0;
-						DevelopmentTeam = 5UT2UZN3KV;
+						DevelopmentTeam = 2LEA94A8C4;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -1453,6 +1466,7 @@
 				F45A76A11B4E3A0400ED975C /* Util.m in Sources */,
 				F4ED4E481B158BC900AD8322 /* SDWebImageDecoder.m in Sources */,
 				F4ED4E451B158BC900AD8322 /* NSData+ImageContentType.m in Sources */,
+				E88D5A181C41302900930A32 /* CalloutMapAnnotation.m in Sources */,
 				F4E3EFBF1BCFD3D700ABC402 /* AKTabBarController.m in Sources */,
 				F42E0F731B147A5E00E6A202 /* EventsVC.m in Sources */,
 				F4626E521B15D6E50018B5E4 /* LoginVC.m in Sources */,

@@ -390,8 +390,6 @@ static RNFrostedSidebar *rn_frostedMenu;
     UIAlertView *alert = [[UIAlertView alloc]initWithTitle:m_logout_conform message:nil delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
     alert.tag=501;
     [alert show];
-    
-    
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
