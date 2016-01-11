@@ -13,8 +13,7 @@
 #import "ListDisplayVC.h"
 
 //
-#import "BasicMapAnnotation.h"
-#import "CalloutMapAnnotation.h"
+#import "JPSThumbnailAnnotation.h"
 //
 
 #define DEFAULT_DELTA_LATITUDE		0.030092
@@ -29,7 +28,6 @@
     
     //
     NSMutableArray *annoArr;
-    CalloutMapAnnotation *_calloutAnnotation;
     //
 }
 
@@ -40,12 +38,8 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
-    //
-    tagggs=500;
-    //
     
-     self.navigationController.navigationBarHidden = YES;
+    self.navigationController.navigationBarHidden = YES;
 
     queue = [[NSOperationQueue alloc] init];
     
@@ -148,220 +142,79 @@
 
 -(void) Create_Annotation
 {
-    //
     annoArr=[[NSMutableArray alloc]init];
-    //
     
     for (int i =0; i<arrVenues.count; i++) {
         
         Venue *venue = [arrVenues objectAtIndex:i];
-        /*MKPointAnnotation *mapPin = [[MKPointAnnotation alloc] init];
         
-        CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(venue.latitude, venue.longitude);
+        //
+        JPSThumbnail *empire = [[JPSThumbnail alloc] init];
+        //empire.image = [UIImage imageNamed:@"round-blackbg1.png"];
+        empire.mainTitle = venue.venueName;
+        empire.title = venue.venueName;
+        empire.subtitle = @"";
+        empire.coordinate = CLLocationCoordinate2DMake(venue.latitude, venue.longitude);
         
-        mapPin.title = venue.venueName;
-        mapPin.coordinate = coordinate;
-        NSString *subtitle = @"";
-        if (![Util isNullValue:[venue.info coverCharges]]) {
-            subtitle = [NSString stringWithFormat:@"Cover Charge:%@",[venue.info coverCharges]];
-        }
-        if (![Util isNullValue:[venue.info fastlineCharges]]) {
-            if (subtitle.length > 0) {
-                subtitle = [subtitle stringByAppendingFormat:@" & Fast Track Charge:%@",venue.info.fastlineCharges];
-            } else {
-                subtitle = [subtitle stringByAppendingFormat:@"Fast Track Charge:%@",venue.info.fastlineCharges];
+        __block JPSThumbnail *empire1 = empire;
+        
+        empire.disclosureBlock = ^{
+            
+            NSLog(@"selected pin");
+            
+            for (int i = 0; i<arrVenues.count; i++) {
+                
+                double latitude = [[[arrVenues objectAtIndex:i] valueForKey:@"latitude"] doubleValue];
+                double longitude = [[[arrVenues objectAtIndex:i] valueForKey:@"longitude"] doubleValue];
+                
+                // setup the map pin with all data and add to map view
+                CLLocationCoordinate2D venueCoordinate = CLLocationCoordinate2DMake(latitude, longitude);
+                
+                CLLocationCoordinate2D coordinate = empire1.coordinate;
+                
+                if (kCLCOORDINATES_EQUAL(venueCoordinate, coordinate)) {
+                    VenueDetailVC *info = [[VenueDetailVC alloc]initWithNibName:@"VenueDetailVC" bundle:nil];
+                    info.ven = [arrVenues objectAtIndex:i];
+                    [self.navigationController pushViewController:info animated:YES];
+                    break;
+                }
             }
-        }
-        [self.mapView addAnnotation:mapPin];
+        };
         
-        if (i==0) {
-            MKCoordinateRegion defaultRegion = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(DEFAULT_DELTA_LATITUDE, DETAULT_DELTA_LONGITUDE));
-            [self.mapView setRegion:defaultRegion];
-        }*/
-        
-        //
-        CLLocationDegrees latitude=venue.latitude;
-        CLLocationDegrees longitude=venue.longitude;
-        
-        BasicMapAnnotation *  annotation=[[BasicMapAnnotation alloc] initWithLatitude:latitude andLongitude:longitude];
-        
-        annotation.ttitle=[NSString stringWithFormat:@"%@",venue.venueName];
-        
-        [annoArr addObject:annotation];
+        [annoArr addObject:[JPSThumbnailAnnotation annotationWithThumbnail:empire]];
         //
     }
     
-    //
-    NSArray *myArray = [annoArr copy];
-    
-    [self.mapView addAnnotations:myArray];
-    //
+    [self.mapView addAnnotations:annoArr];
 }
 
-/*
 #pragma mark - MapView Delegate
-- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
-{
-   // MKAnnotationView *annotationView = [views objectAtIndex:0];
-    //id<MKAnnotation> mp = [annotationView annotation];
-    //MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate] ,350,350);
-    
-    //[mv setRegion:region animated:YES];
-    
-    //[self.mapView selectAnnotation:mp animated:YES];
-    
-}*/
-
-/*
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views {
-    id myAnnotation = [mapView.annotations objectAtIndex:0];
-    [mapView selectAnnotation:myAnnotation animated:YES];
-}
-*/
-
-/*
--(void)mapViewDidFinishLoadingMap:(MKMapView *)mapView
-{
- 
-    for (int i = 0; i < [arrVenues count]; i++)
-    {
-         [mapView selectAnnotation:[[mapView annotations] objectAtIndex:i] animated:YES];
-    }
-}
-*/
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     
-    NSMutableDictionary *dic=[annoArr objectAtIndex:view.tag-500];
-    
-    NSString *strAddress=[NSString stringWithFormat:@"%@",[dic objectForKey:@"Address"]];
-    NSString *strName=[NSString stringWithFormat:@"%@",[dic objectForKey:@"Name"]];
-    
-    _calloutAnnotation = [[CalloutMapAnnotation alloc]
-                          initWithLatitude:view.annotation.coordinate.latitude
-                          andLongitude:view.annotation.coordinate.longitude];
-    
-    [mapView addAnnotation:_calloutAnnotation];
-    [mapView setCenterCoordinate:_calloutAnnotation.coordinate animated:YES];
+    if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)]) {
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didSelectAnnotationViewInMap:mapView];
+    }
+}
+
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    if ([view conformsToProtocol:@protocol(JPSThumbnailAnnotationViewProtocol)])
+    {
+        [((NSObject<JPSThumbnailAnnotationViewProtocol> *)view) didDeselectAnnotationViewInMap:mapView];
+    }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
-    /*static NSString *reuseId = @"StandardPin";
-    MKPinAnnotationView *aView = (MKPinAnnotationView *)[mapView
-                                                         dequeueReusableAnnotationViewWithIdentifier:reuseId];
-    if (aView == nil)
-    {
-        aView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation
-                                                 reuseIdentifier:reuseId];
+    if ([annotation conformsToProtocol:@protocol(JPSThumbnailAnnotationProtocol)]) {
+        return [((NSObject<JPSThumbnailAnnotationProtocol> *)annotation) annotationViewInMap:mapView];
     }
-
-    aView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    aView.canShowCallout = YES;
-
-    aView.annotation = annotation;
-    
-    return aView;*/
-    
-    /*
-    MKPinAnnotationView *pinView = nil;
-    
-    //
-    //
-    if(annotation != mapView.userLocation)
-    {
-        static NSString *defaultPinID = @"com.invasivecode.pin";
-        pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:defaultPinID];
-        
-        if ( pinView == nil ) pinView = [[MKPinAnnotationView alloc]
-                                          initWithAnnotation:annotation reuseIdentifier:defaultPinID];
-        
-        //pinView.pinColor = MKPinAnnotationColorRed;
-        pinView.canShowCallout = YES;
-        //pinView.animatesDrop = YES;
-        
-        //
-        UIView *viewData = [[UIView alloc]initWithFrame:CGRectMake(-25, -5, 70, 50)];
-        viewData.backgroundColor = [UIColor clearColor];
-        
-        UIImageView *imgv = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 70, 50)];
-        imgv.image = [UIImage imageNamed:@"16_new.png"];
-        [viewData addSubview:imgv];
-        
-        UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(5 , 0, 60, 37)];
-        lbl.textAlignment = NSTextAlignmentCenter;
-        lbl.font = [UIFont systemFontOfSize:11.0];
-        lbl.numberOfLines = 2;
-        lbl.backgroundColor = [UIColor clearColor];
-        lbl.textColor = [UIColor whiteColor];
-        lbl.text = @"Shubham Club";
-        
-        [viewData addSubview:lbl];
-        
-        [pinView addSubview:viewData];
-        //
-
-        pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    }
-    
-    return pinView;
-    */
-    
-    BasicMapAnnotation *TempAnno=annotation;
-    MKAnnotationView *annotationView =[self.mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];
-    
-    annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"CustomAnnotation"];
-    annotationView.canShowCallout = NO;
-    
-    NSString *str=@"Title";//TempAnno.ttitle;
-    
-    //annotationView.image = [UIImage imageNamed:@"140_new.png"];
-    
-    int i=[str intValue];
-    
-    annotationView.tag=tagggs+i;
-    
-    //
-    annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    
-    UIView *viewData = [[UIView alloc]initWithFrame:CGRectMake(-40, -40, 70, 50)];
-    viewData.backgroundColor = [UIColor clearColor];
-    
-    UIImageView *imgv = [[UIImageView alloc]initWithFrame:CGRectMake(0, 2, 75, 30)];
-    imgv.image = [UIImage imageNamed:@"round-blackbg1.png"];
-    [viewData addSubview:imgv];
-    
-    UILabel *lbl = [[UILabel alloc] initWithFrame:CGRectMake(4 , 0, 65, 27)];
-    lbl.textAlignment = NSTextAlignmentCenter;
-    lbl.font = [UIFont systemFontOfSize:10.0];
-    lbl.numberOfLines = 2;
-    lbl.backgroundColor = [UIColor clearColor];
-    lbl.textColor = [UIColor whiteColor];
-    lbl.text = str;
-    
-    [viewData addSubview:lbl];
-    
-    [annotationView addSubview:viewData];
-    //
-    
-    return annotationView;
+    return nil;
 }
 
-//
-- (void)mapView:(MKMapView *)mv didAddAnnotationViews:(NSArray *)views
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    /*MKAnnotationView *annotationView = [views objectAtIndex:0];
-    id<MKAnnotation> mp = [annotationView annotation];
-    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance([mp coordinate] ,350,350);
-    
-    [mv setRegion:region animated:YES];
-    
-    [self.mapView selectAnnotation:mp animated:YES];*/
-}
-//
-
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control {
-    
     for (int i = 0; i<arrVenues.count; i++) {
         
         double latitude = [[[arrVenues objectAtIndex:i] valueForKey:@"latitude"] doubleValue];
@@ -371,7 +224,6 @@
         CLLocationCoordinate2D venueCoordinate = CLLocationCoordinate2DMake(latitude, longitude);
         CLLocationCoordinate2D coordinate = [[(MKPinAnnotationView *)view annotation] coordinate];
         if (kCLCOORDINATES_EQUAL(venueCoordinate, coordinate)) {
-            //VenueDetailVC *info = [self.storyboard instantiateViewControllerWithIdentifier:@"VenueDetailVC"];
             VenueDetailVC *info = [[VenueDetailVC alloc]initWithNibName:@"VenueDetailVC" bundle:nil];
             info.ven = [arrVenues objectAtIndex:i];
             [self.navigationController pushViewController:info animated:YES];

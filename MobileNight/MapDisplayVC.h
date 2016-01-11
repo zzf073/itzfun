@@ -8,11 +8,7 @@
 
 @interface MapDisplayVC : HeaderVC<MKMapViewDelegate>
 {
-    NSArray *arrVenues;
-    
-    //
-    int tagggs;
-    //
+    NSArray *arrVenues;    
 }
 
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
